@@ -8,12 +8,9 @@
 using grpc = global::Grpc.Core;
 
 namespace EchoClip.gRPC {
-  /// <summary>
-  /// The greeting service definition.
-  /// </summary>
-  public static partial class Greeter
+  public static partial class GreeterController
   {
-    static readonly string __ServiceName = "greet.Greeter";
+    static readonly string __ServiceName = "greet.GreeterController";
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     static void __Helper_SerializeMessage(global::Google.Protobuf.IMessage message, grpc::SerializationContext context)
@@ -67,16 +64,10 @@ namespace EchoClip.gRPC {
       get { return global::EchoClip.gRPC.GreetReflection.Descriptor.Services[0]; }
     }
 
-    /// <summary>Base class for server-side implementations of Greeter</summary>
-    [grpc::BindServiceMethod(typeof(Greeter), "BindService")]
-    public abstract partial class GreeterBase
+    /// <summary>Base class for server-side implementations of GreeterController</summary>
+    [grpc::BindServiceMethod(typeof(GreeterController), "BindService")]
+    public abstract partial class GreeterControllerBase
     {
-      /// <summary>
-      /// Sends a greeting
-      /// </summary>
-      /// <param name="request">The request received from the client.</param>
-      /// <param name="context">The context of the server-side call handler being invoked.</param>
-      /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
       public virtual global::System.Threading.Tasks.Task<global::EchoClip.gRPC.HelloReply> SayHello(global::EchoClip.gRPC.HelloRequest request, grpc::ServerCallContext context)
       {
@@ -88,7 +79,7 @@ namespace EchoClip.gRPC {
     /// <summary>Creates service definition that can be registered with a server</summary>
     /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    public static grpc::ServerServiceDefinition BindService(GreeterBase serviceImpl)
+    public static grpc::ServerServiceDefinition BindService(GreeterControllerBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
           .AddMethod(__Method_SayHello, serviceImpl.SayHello).Build();
@@ -99,7 +90,7 @@ namespace EchoClip.gRPC {
     /// <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
     /// <param name="serviceImpl">An object implementing the server-side handling logic.</param>
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    public static void BindService(grpc::ServiceBinderBase serviceBinder, GreeterBase serviceImpl)
+    public static void BindService(grpc::ServiceBinderBase serviceBinder, GreeterControllerBase serviceImpl)
     {
       serviceBinder.AddMethod(__Method_SayHello, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::EchoClip.gRPC.HelloRequest, global::EchoClip.gRPC.HelloReply>(serviceImpl.SayHello));
     }

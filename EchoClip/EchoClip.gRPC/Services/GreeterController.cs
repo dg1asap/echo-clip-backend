@@ -1,12 +1,11 @@
-using EchoClip.gRPC;
 using Grpc.Core;
 
 namespace EchoClip.gRPC.Services
 {
-    public class GreeterService : Greeter.GreeterBase
+    public class GreeterController : gRPC.GreeterController.GreeterControllerBase
     {
-        private readonly ILogger<GreeterService> _logger;
-        public GreeterService(ILogger<GreeterService> logger)
+        private readonly ILogger<GreeterController> _logger;
+        public GreeterController(ILogger<GreeterController> logger)
         {
             _logger = logger;
         }
