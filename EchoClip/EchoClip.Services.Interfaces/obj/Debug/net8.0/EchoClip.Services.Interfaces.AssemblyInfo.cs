@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EchoClip.Services.Interfaces")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c3032ccab0cfdc3c053034ff594daadcaa393890")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4e246a09996feb74df34a96abc161a74240b06cf")]
 [assembly: System.Reflection.AssemblyProductAttribute("EchoClip.Services.Interfaces")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EchoClip.Services.Interfaces")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
