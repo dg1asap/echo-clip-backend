@@ -29,7 +29,7 @@ public class AuthController : gRPC.AuthController.AuthControllerBase {
 
     public override Task<RefreshTokenResponse> getRefreshToken(RefreshTokenRequest request, ServerCallContext context) 
     {
-        TokenModel token = _authService.getAccessToken(request.RefreshToken);
+        TokenModel token = _authService.getToken(request.RefreshToken);
         return Task.FromResult(new RefreshTokenResponse
         {
             AccessToken = token.AccessToken

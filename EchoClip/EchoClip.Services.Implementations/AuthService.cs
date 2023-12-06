@@ -10,7 +10,7 @@ public class AuthService : IAuthService
     private const string SecretKey = "your_secret_key";
     private readonly JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
 
-    public TokenModel loginIn(string username, string password)
+    public TokenModel login(string username, string password)
     {
         if (IsValidUser(username, password))
         {
