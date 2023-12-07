@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+option csharp_namespace = "EchoClip.gRPC";
+
+package auth;
+
+service AuthController {
+	rpc Authentication (AuthRequest) returns (AuthResponse);
+}
+
+message AuthRequest {
+	string login = 1;
+	string password = 2;
+}
+
+message AuthResponse {
+	string AccessToken = 1;
+	int32 ExpiresIn = 2;
+}
