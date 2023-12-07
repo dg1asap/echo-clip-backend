@@ -1,19 +1,16 @@
-﻿using EchoClip.gRPC;
-using Microsoft.IdentityModel.Tokens;
-using System;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Reflection.Metadata.Ecma335;
 using System.Security.Claims;
 using System.Text;
 
 namespace EchoClip.gRPC.Services
 {
-    public static class JwtAuthManager
+    public class JwtAuthManager
     {
         public const string JWT_TOKEN_KEY = "bceec74c6566995de11fbeda032c3f7e4ba04d282b9106e424a018fa8bdaac72"; // TODO Wymyslony! Zmienic na Produkcji!!!!
         private const int JWT_TOKEN_VALIDITY = 30;
 
-        public static AuthResponse Authenticate(AuthRequest authRequest)
+        public AuthResponse Authenticate(AuthRequest authRequest)
         {
             // --- Impl User Credentials Validation
             if (authRequest.Username != "admin" || authRequest.Password != "admin")

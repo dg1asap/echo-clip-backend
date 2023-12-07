@@ -31,6 +31,7 @@ builder.Services.AddGrpc();
 builder.Services.AddDbContext<DatabaseEchoClipContext>(
     o => o.UseNpgsql(builder.Configuration.GetConnectionString("database"))
     );
+builder.Services.AddScoped<JwtAuthManager>();
 /*builder.Services.AddScoped<IAuthService, AuthService>();*/
 //builder.Services.AddScoped<AuthController, IAuthService>();
 

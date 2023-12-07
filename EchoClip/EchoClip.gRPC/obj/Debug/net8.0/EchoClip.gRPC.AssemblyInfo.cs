@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EchoClip.gRPC")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4e246a09996feb74df34a96abc161a74240b06cf")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
 [assembly: System.Reflection.AssemblyProductAttribute("EchoClip.gRPC")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EchoClip.gRPC")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
