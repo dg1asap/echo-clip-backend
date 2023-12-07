@@ -9,7 +9,7 @@ service AuthController {
 }
 
 message AuthRequest {
-	string username = 1;
+	string login = 1;
 	string password = 2;
 }
 

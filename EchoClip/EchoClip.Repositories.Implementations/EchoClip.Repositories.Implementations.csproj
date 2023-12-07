@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EchoClip.Models\EchoClip.Models.csproj" />
+    <ProjectReference Include="..\EchoClip.Repositories.Interfaces\EchoClip.Repositories.Interfaces.csproj" />
+  </ItemGroup>
+
 </Project>

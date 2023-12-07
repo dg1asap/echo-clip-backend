@@ -1164,11 +1164,39 @@
           "bin/placeholder/EchoClip.Models.dll": {}
         }
       },
+      "EchoClip.Repositories.Implementations/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "EchoClip.Models": "1.0.0",
+          "EchoClip.Repositories.Interfaces": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/EchoClip.Repositories.Implementations.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/EchoClip.Repositories.Implementations.dll": {}
+        }
+      },
+      "EchoClip.Repositories.Interfaces/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "dependencies": {
+          "EchoClip.Models": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/EchoClip.Repositories.Interfaces.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/EchoClip.Repositories.Interfaces.dll": {}
+        }
+      },
       "EchoClip.Services.Implementations/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
           "EchoClip.Models": "1.0.0",
+          "EchoClip.Repositories.Interfaces": "1.0.0",
           "EchoClip.Services.Interfaces": "1.0.0",
           "System.IdentityModel.Tokens.Jwt": "7.0.3"
         },
@@ -3020,6 +3048,16 @@
       "path": "../EchoClip.Models/EchoClip.Models.csproj",
       "msbuildProject": "../EchoClip.Models/EchoClip.Models.csproj"
     },
+    "EchoClip.Repositories.Implementations/1.0.0": {
+      "type": "project",
+      "path": "../EchoClip.Repositories.Implementations/EchoClip.Repositories.Implementations.csproj",
+      "msbuildProject": "../EchoClip.Repositories.Implementations/EchoClip.Repositories.Implementations.csproj"
+    },
+    "EchoClip.Repositories.Interfaces/1.0.0": {
+      "type": "project",
+      "path": "../EchoClip.Repositories.Interfaces/EchoClip.Repositories.Interfaces.csproj",
+      "msbuildProject": "../EchoClip.Repositories.Interfaces/EchoClip.Repositories.Interfaces.csproj"
+    },
     "EchoClip.Services.Implementations/1.0.0": {
       "type": "project",
       "path": "../EchoClip.Services.Implementations/EchoClip.Services.Implementations.csproj",
@@ -3034,6 +3072,8 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "EchoClip.Models >= 1.0.0",
+      "EchoClip.Repositories.Implementations >= 1.0.0",
+      "EchoClip.Repositories.Interfaces >= 1.0.0",
       "EchoClip.Services.Implementations >= 1.0.0",
       "EchoClip.Services.Interfaces >= 1.0.0",
       "Grpc.AspNetCore >= 2.57.0",
@@ -3079,6 +3119,12 @@
           "projectReferences": {
             "D:\\Projects\\EchoClip\\echo-clip-backend\\EchoClip\\EchoClip.Models\\EchoClip.Models.csproj": {
               "projectPath": "D:\\Projects\\EchoClip\\echo-clip-backend\\EchoClip\\EchoClip.Models\\EchoClip.Models.csproj"
+            },
+            "D:\\Projects\\EchoClip\\echo-clip-backend\\EchoClip\\EchoClip.Repositories.Implementations\\EchoClip.Repositories.Implementations.csproj": {
+              "projectPath": "D:\\Projects\\EchoClip\\echo-clip-backend\\EchoClip\\EchoClip.Repositories.Implementations\\EchoClip.Repositories.Implementations.csproj"
+            },
+            "D:\\Projects\\EchoClip\\echo-clip-backend\\EchoClip\\EchoClip.Repositories.Interfaces\\EchoClip.Repositories.Interfaces.csproj": {
+              "projectPath": "D:\\Projects\\EchoClip\\echo-clip-backend\\EchoClip\\EchoClip.Repositories.Interfaces\\EchoClip.Repositories.Interfaces.csproj"
             },
             "D:\\Projects\\EchoClip\\echo-clip-backend\\EchoClip\\EchoClip.Services.Implementations\\EchoClip.Services.Implementations.csproj": {
               "projectPath": "D:\\Projects\\EchoClip\\echo-clip-backend\\EchoClip\\EchoClip.Services.Implementations\\EchoClip.Services.Implementations.csproj"

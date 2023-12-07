@@ -4,6 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using EchoClip.gRPC.Interfaces;
+using EchoClip.gRPC.Implementations;
+using EchoClip.Repositories.Interfaces;
+using EchoClip.Repositories.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,10 +35,11 @@ builder.Services.AddGrpc();
 builder.Services.AddDbContext<DatabaseEchoClipContext>(
     o => o.UseNpgsql(builder.Configuration.GetConnectionString("database"))
     );
+builder.Services.AddScoped<ICredentialsValidator, CredentialsValidator>();
 builder.Services.AddScoped<JwtAuthManager>();
 /*builder.Services.AddScoped<IAuthService, AuthService>();*/
 //builder.Services.AddScoped<AuthController, IAuthService>();
-
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 var app = builder.Build();
 
 app.UseAuthentication();

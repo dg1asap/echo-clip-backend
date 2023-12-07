@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EchoClip.Models")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ef8dd506935951f58343e7d29155566a698e742c")]
 [assembly: System.Reflection.AssemblyProductAttribute("EchoClip.Models")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EchoClip.Models")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

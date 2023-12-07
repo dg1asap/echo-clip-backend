@@ -30,6 +30,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EchoClip.Models\EchoClip.Models.csproj" />
+    <ProjectReference Include="..\EchoClip.Repositories.Implementations\EchoClip.Repositories.Implementations.csproj" />
+    <ProjectReference Include="..\EchoClip.Repositories.Interfaces\EchoClip.Repositories.Interfaces.csproj" />
     <ProjectReference Include="..\EchoClip.Services.Implementations\EchoClip.Services.Implementations.csproj" />
     <ProjectReference Include="..\EchoClip.Services.Interfaces\EchoClip.Services.Interfaces.csproj" />
   </ItemGroup>
