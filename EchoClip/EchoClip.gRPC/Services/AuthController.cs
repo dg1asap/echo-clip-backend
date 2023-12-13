@@ -2,17 +2,11 @@
 
 namespace EchoClip.gRPC.Services;
 
-public class AuthController : gRPC.AuthController.AuthControllerBase
+public class AuthController(ILogger<AuthController> logger, JwtAuthManager jwtAuthManager) : gRPC.AuthController.AuthControllerBase
 {
     
-    private readonly ILogger<AuthController> _logger;
-    private readonly JwtAuthManager _jwtAuthManager;
-
-    public AuthController(ILogger<AuthController> logger, JwtAuthManager jwtAuthManager)
-    {
-        _logger = logger;
-        _jwtAuthManager = jwtAuthManager;
-    }
+    private readonly ILogger<AuthController> _logger = logger;
+    private readonly JwtAuthManager _jwtAuthManager = jwtAuthManager;
 
     public override Task<AuthResponse> Authentication(AuthRequest request, ServerCallContext context)
     {

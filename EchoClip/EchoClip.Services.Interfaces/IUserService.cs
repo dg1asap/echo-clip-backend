@@ -2,6 +2,7 @@ namespace EchoClip.gRPC.Interfaces
 {
     public interface IUserService
     {
-        void createUser(string username, string password, string email);
+        void CreateUser(string username, string password, string email);
+        Guid? GetUserGuidFromUsernameOrEmail(string username, string email);
     }
 }

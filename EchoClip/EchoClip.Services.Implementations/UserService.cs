@@ -12,9 +12,9 @@ namespace EchoClip.gRPC.Implementations
             _userRepository = userRepository;
         }
 
-        public void createUser(string username, string password, string email) //TODO [Prioritet: LOW] Jak w .NET Core robić pojedyncza tranzakcje na 2 zapytania bazodanowe?
+        public void CreateUser(string username, string password, string email) //TODO [Prioritet: LOW] Jak w .NET Core robić pojedyncza tranzakcje na 2 zapytania bazodanowe?
         {
-            if (_userRepository.isUserWithNameOrEmailOrPassword(username, email, password))
+            if (_userRepository.IsUserWithNameOrEmailOrPassword(username, email, password))
             {
                 throw new Exception("This user exist, change login data");
             }
@@ -27,7 +27,9 @@ namespace EchoClip.gRPC.Implementations
                 Email = email
             };
 
-            _userRepository.addUser(newUser);
+            _userRepository.AddUser(newUser);
         }
+
+        public Guid? GetUserGuidFromUsernameOrEmail(string username, string email) => _userRepository.GetUserGUIDFormUsernameOrEmail(username, email);
     }
 }

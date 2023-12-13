@@ -39,6 +39,9 @@ builder.Services.AddScoped<ICredentialsValidator, CredentialsValidator>();
 builder.Services.AddScoped<JwtAuthManager>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<UserFromTokenReader>();
+
+builder.Services.AddHttpContextAccessor();
 var app = builder.Build();
 
 app.UseAuthentication();
