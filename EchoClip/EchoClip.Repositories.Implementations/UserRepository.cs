@@ -12,12 +12,17 @@ namespace EchoClip.Repositories.Implementations
             _context = context;
         }
 
-        public bool IsUserWithNameOrEmaiAndPassword(string username, string email, string password)
+        public bool isUserWithNameOrEmailAndPassword(string username, string email, string password)
         {
             return _context.Users.Any(u => (u.Username == username || u.Email == email) && u.Password == password);
         }
 
-        public void AddUser(User user)
+        public bool isUserWithNameOrEmailOrPassword(string username, string email, string password)
+        {
+            return _context.Users.Any(u => u.Username == username || u.Email == email || u.Password == password);
+        }
+
+        public void addUser(User user)
         {
             _context.Users.Add(user);
             _context.SaveChanges();

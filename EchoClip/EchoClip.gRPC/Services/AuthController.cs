@@ -2,7 +2,8 @@
 
 namespace EchoClip.gRPC.Services;
 
-public class AuthController : gRPC.AuthController.AuthControllerBase {
+public class AuthController : gRPC.AuthController.AuthControllerBase
+{
     
     private readonly ILogger<AuthController> _logger;
     private readonly JwtAuthManager _jwtAuthManager;

@@ -37,9 +37,8 @@ builder.Services.AddDbContext<DatabaseEchoClipContext>(
     );
 builder.Services.AddScoped<ICredentialsValidator, CredentialsValidator>();
 builder.Services.AddScoped<JwtAuthManager>();
-/*builder.Services.AddScoped<IAuthService, AuthService>();*/
-//builder.Services.AddScoped<AuthController, IAuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 var app = builder.Build();
 
 app.UseAuthentication();
@@ -47,6 +46,7 @@ app.UseAuthorization();
 
 app.MapGrpcService<AuthController>();
 app.MapGrpcService<GreeterController>();
+app.MapGrpcService<UserController>();
 
 /*app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
 */

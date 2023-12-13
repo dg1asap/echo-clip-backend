@@ -4,7 +4,8 @@ namespace EchoClip.Repositories.Interfaces
 {
     public interface IUserRepository
     {
-        void AddUser(User user);
-        bool IsUserWithNameOrEmaiAndPassword(string username, string email, string password);
+        void addUser(User user);
+        bool isUserWithNameOrEmailAndPassword(string username, string email, string password);
+        bool isUserWithNameOrEmailOrPassword(string username, string email, string password);
     }
 }

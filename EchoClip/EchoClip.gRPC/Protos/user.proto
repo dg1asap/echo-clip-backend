@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option csharp_namespace = "EchoClip.gRPC";
+
+package user;
+
+service UserController {
+	rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
+}
+
+message CreateUserRequest {
+	string Username = 1;
+	string Password = 2;
+	string Email = 3;
+}
+
+message CreateUserResponse {
+	string Username = 1;
+	string Email = 2;
+}

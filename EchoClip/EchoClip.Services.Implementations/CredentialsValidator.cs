@@ -13,7 +13,7 @@ namespace EchoClip.gRPC.Implementations
         
         public bool validLogin(string login, string password)
         {
-            return _userRepository.IsUserWithNameOrEmaiAndPassword(login, login, password);
+            return _userRepository.isUserWithNameOrEmailAndPassword(login, login, password);
         }
     }
 }
