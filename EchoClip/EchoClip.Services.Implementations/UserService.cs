@@ -19,9 +19,9 @@ namespace EchoClip.gRPC.Implementations
                 throw new Exception("This user exist, change login data");
             }
 
-            Users newUser = new Users
+            User newUser = new User
             {
-                User_id = Guid.NewGuid(),
+                UserId = Guid.NewGuid(),
                 Username = username,
                 Password = password,
                 Email = email

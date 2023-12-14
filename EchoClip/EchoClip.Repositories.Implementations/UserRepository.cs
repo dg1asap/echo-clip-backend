@@ -22,7 +22,7 @@ namespace EchoClip.Repositories.Implementations
             return _context.Users.Any(u => u.Username == username || u.Email == email || u.Password == password);
         }
 
-        public void AddUser(Users user)
+        public void AddUser(User user)
         {
             _context.Users.Add(user);
             _context.SaveChanges();
@@ -32,7 +32,7 @@ namespace EchoClip.Repositories.Implementations
         {
             return _context.Users
                 .Where(u => u.Username == username || u.Email == email)
-                .Select(u => u.User_id)
+                .Select(u => u.UserId)
                 .FirstOrDefault();
         }
     }

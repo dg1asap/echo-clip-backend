@@ -3,21 +3,28 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EchoClip.Models;
 
-public class VoiceRecordings
+[Table("Voice_recordings")]
+
+public class VoiceRecording
 {
     [Key]
+    [Column("Voice_recording_id")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Voide_recoding_id { get; set; }
+    public Guid VoiceRecodingId { get; set; }
+
+    [Required]
+    [Column("Owner_user_id")]
+    public Guid OwnerUserId { get; set; }
 
     [Required]
     public byte[] Recording { get; set; }
 
     [Required]
-    public Guid Owner_user_id { get; set; }
-
-    [Required]
-    public DateTime Upload_data_time { get; set; }
+    [Column("Upload_data_time")]
+    public DateTime UploadDataTime { get; set; }
 
 
-    public List<ChatsVoiceRecordings> ChatsVoiceRecordings { get; set; } = new();
+    public User OwnerUser { get; set; }
+
+    public List<ChatsVoiceRecording> ChatsVoiceRecordings { get; set; } = new();
 }

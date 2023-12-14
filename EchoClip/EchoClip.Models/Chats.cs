@@ -3,22 +3,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EchoClip.Models;
 
-public class Chats
+[Table("Chats")]
+public class Chat
 {
     [Key]
+    [Column("Chat_id")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid Chat_id { get; set; }
+    public Guid ChatId { get; set; }
 
     [Required]
     public string Name { get; set; }
 
     [Required]
-    public Guid Owner_user_id { get; set; }
+    [Column("Owner_user_id")]
+    public Guid OwnerUserId { get; set; }
 
 
-    public Users Owner_user { get; set; }
+    public User OwnerUser { get; set; }
 
-    public List<ChatsVoiceRecordings> ChatsVoiceRecordings { get; set; } = new();
+    public List<ChatsVoiceRecording> ChatsVoiceRecordings { get; set; } = new();
 
-    public List<UsersWhoJoinedChats> Users_who_joined_chats { get; set; } = new();
+    public List<UserWhoJoinedChat> UsersWhoJoinedChats { get; set; } = new();
 }

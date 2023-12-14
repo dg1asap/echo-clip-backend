@@ -3,11 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EchoClip.Models;
 
-public class Users
+[Table("Users")]
+public class User
 {
     [Key]
+    [Column("User_id")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid User_id { get; set; }
+    public Guid UserId { get; set; }
 
     [Required]
     public string Username { get; set; }
@@ -19,7 +21,9 @@ public class Users
     public string Email { get; set; }
 
 
-    public List<Chats> Created_chats { get; set; } = new();
+    public List<Chat> CreatedChats { get; set; } = new();
 
-    public List<UsersWhoJoinedChats> Users_who_joined_chats { get; set; } = new();
+    public List<UserWhoJoinedChat> UsersWhoJoinedChats { get; set; } = new();
+
+    public List<VoiceRecording> VoiceRecordings { get; set; } = new();
 }
