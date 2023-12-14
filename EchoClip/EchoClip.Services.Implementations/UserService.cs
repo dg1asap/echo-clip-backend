@@ -21,7 +21,7 @@ namespace EchoClip.gRPC.Implementations
 
             Users newUser = new Users
             {
-                UserId = Guid.NewGuid(),
+                User_id = Guid.NewGuid(),
                 Username = username,
                 Password = password,
                 Email = email

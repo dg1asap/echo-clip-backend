@@ -3,6 +3,7 @@ using System;
 using EchoClip.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EchoClip.Models.Migrations
 {
     [DbContext(typeof(DatabaseEchoClipContext))]
-    partial class DatabaseEchoClipContextModelSnapshot : ModelSnapshot
+    [Migration("20231214203106_foreignKeyChsdaf222")]
+    partial class foreignKeyChsdaf222
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -44,17 +47,18 @@ namespace EchoClip.Models.Migrations
 
             modelBuilder.Entity("EchoClip.Models.ChatsVoiceRecordings", b =>
                 {
-                    b.Property<Guid>("ChatId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("Chat_id");
+                    b.Property<Guid>("Chat_id")
+                        .HasColumnType("uuid");
 
-                    b.Property<Guid>("VoiceRecordingId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("Voice_recording_id");
+                    b.Property<Guid>("Voice_recording_id")
+                        .HasColumnType("uuid");
 
-                    b.HasKey("ChatId", "VoiceRecordingId");
+                    b.Property<Guid>("Voice_recordingsVoide_recoding_id")
+                        .HasColumnType("uuid");
 
-                    b.HasIndex("VoiceRecordingId");
+                    b.HasKey("Chat_id", "Voice_recording_id");
+
+                    b.HasIndex("Voice_recordingsVoide_recoding_id");
 
                     b.ToTable("Chats_voice_recordings");
                 });
@@ -137,59 +141,37 @@ namespace EchoClip.Models.Migrations
 
             modelBuilder.Entity("EchoClip.Models.ChatsVoiceRecordings", b =>
                 {
-                    b.HasOne("EchoClip.Models.Chats", "Chat")
-                        .WithMany("ChatsVoiceRecordings")
-                        .HasForeignKey("ChatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("EchoClip.Models.VoiceRecordings", "VoiceRecording")
-                        .WithMany("ChatsVoiceRecordings")
-                        .HasForeignKey("VoiceRecordingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Chat");
-
-                    b.Navigation("VoiceRecording");
-                });
-
-            modelBuilder.Entity("EchoClip.Models.UsersWhoJoinedChats", b =>
-                {
-                    b.HasOne("EchoClip.Models.Chats", "Chat")
-                        .WithMany("Users_who_joined_chats")
+                    b.HasOne("EchoClip.Models.Chats", null)
+                        .WithMany()
                         .HasForeignKey("Chat_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EchoClip.Models.Users", "User")
-                        .WithMany("Users_who_joined_chats")
-                        .HasForeignKey("User_id")
+                    b.HasOne("EchoClip.Models.VoiceRecordings", null)
+                        .WithMany()
+                        .HasForeignKey("Voice_recordingsVoide_recoding_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EchoClip.Models.UsersWhoJoinedChats", b =>
+                {
+                    b.HasOne("EchoClip.Models.Chats", null)
+                        .WithMany()
+                        .HasForeignKey("Chat_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Chat");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("EchoClip.Models.Chats", b =>
-                {
-                    b.Navigation("ChatsVoiceRecordings");
-
-                    b.Navigation("Users_who_joined_chats");
+                    b.HasOne("EchoClip.Models.Users", null)
+                        .WithMany()
+                        .HasForeignKey("User_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EchoClip.Models.Users", b =>
                 {
                     b.Navigation("Created_chats");
-
-                    b.Navigation("Users_who_joined_chats");
-                });
-
-            modelBuilder.Entity("EchoClip.Models.VoiceRecordings", b =>
-                {
-                    b.Navigation("ChatsVoiceRecordings");
                 });
 #pragma warning restore 612, 618
         }

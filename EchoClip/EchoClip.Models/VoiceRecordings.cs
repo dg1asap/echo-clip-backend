@@ -7,16 +7,17 @@ public class VoiceRecordings
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid VoideRecodingId { get; set; }
+    public Guid Voide_recoding_id { get; set; }
 
     [Required]
     public byte[] Recording { get; set; }
 
     [Required]
-    public Guid OwnerUserId { get; set; }
+    public Guid Owner_user_id { get; set; }
 
     [Required]
-    public DateTime UploadDataTime { get; set; }
+    public DateTime Upload_data_time { get; set; }
 
-    public List<Chats> Chats { get; set; } = new();
+
+    public List<ChatsVoiceRecordings> ChatsVoiceRecordings { get; set; } = new();
 }

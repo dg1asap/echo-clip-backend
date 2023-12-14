@@ -7,15 +7,18 @@ public class Chats
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid ChatId { get; set; }
+    public Guid Chat_id { get; set; }
 
     [Required]
     public string Name { get; set; }
 
     [Required]
-    public Guid OwnerUserId { get; set; }
+    public Guid Owner_user_id { get; set; }
 
-    public List<Users> Users { get; set; } = new();
 
-    public List<VoiceRecordings> VoiceRecordings { get; set; } = new();
+    public Users Owner_user { get; set; }
+
+    public List<ChatsVoiceRecordings> ChatsVoiceRecordings { get; set; } = new();
+
+    public List<UsersWhoJoinedChats> Users_who_joined_chats { get; set; } = new();
 }

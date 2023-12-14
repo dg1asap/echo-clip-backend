@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EchoClip.Models.Migrations
 {
     [DbContext(typeof(DatabaseEchoClipContext))]
-    [Migration("20231214134838_chats")]
-    partial class chats
+    [Migration("20231214215031_foreignKeyChsdaf222hafaf2314s")]
+    partial class foreignKeyChsdaf222hafaf2314s
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +27,7 @@ namespace EchoClip.Models.Migrations
 
             modelBuilder.Entity("EchoClip.Models.Chats", b =>
                 {
-                    b.Property<Guid>("ChatId")
+                    b.Property<Guid>("Chat_id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -35,10 +35,12 @@ namespace EchoClip.Models.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("OwnerUserId")
+                    b.Property<Guid>("Owner_user_id")
                         .HasColumnType("uuid");
 
-                    b.HasKey("ChatId");
+                    b.HasKey("Chat_id");
+
+                    b.HasIndex("Owner_user_id");
 
                     b.ToTable("Chats");
                 });
@@ -46,49 +48,23 @@ namespace EchoClip.Models.Migrations
             modelBuilder.Entity("EchoClip.Models.ChatsVoiceRecordings", b =>
                 {
                     b.Property<Guid>("ChatId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("Chat_id");
 
-                    b.Property<Guid>("VoiceRecordingsId")
-                        .HasColumnType("uuid");
+                    b.Property<Guid>("VoiceRecordingId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("Voice_recording_id");
 
-                    b.HasKey("ChatId", "VoiceRecordingsId");
+                    b.HasKey("ChatId", "VoiceRecordingId");
 
-                    b.HasIndex("VoiceRecordingsId");
+                    b.HasIndex("VoiceRecordingId");
 
-                    b.ToTable("ChatsVoiceRecordings");
-                });
-
-            modelBuilder.Entity("EchoClip.Models.FriendInvates", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UserFriendInvatesId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("FriendInvates");
-                });
-
-            modelBuilder.Entity("EchoClip.Models.Friends", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("UserFriendId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Friends");
+                    b.ToTable("Chats_voice_recordings");
                 });
 
             modelBuilder.Entity("EchoClip.Models.Users", b =>
                 {
-                    b.Property<Guid>("UserId")
+                    b.Property<Guid>("User_id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
@@ -104,7 +80,7 @@ namespace EchoClip.Models.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.HasKey("User_id");
 
                     b.HasIndex("Email")
                         .IsUnique();
@@ -115,70 +91,100 @@ namespace EchoClip.Models.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("EchoClip.Models.UsersChats", b =>
+            modelBuilder.Entity("EchoClip.Models.UsersWhoJoinedChats", b =>
                 {
-                    b.Property<Guid>("UsersId")
+                    b.Property<Guid>("User_id")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ChatId")
+                    b.Property<Guid>("Chat_id")
                         .HasColumnType("uuid");
 
-                    b.HasKey("UsersId", "ChatId");
+                    b.HasKey("User_id", "Chat_id");
 
-                    b.HasIndex("ChatId");
+                    b.HasIndex("Chat_id");
 
-                    b.ToTable("UsersChats");
+                    b.ToTable("Users_who_joined_chats");
                 });
 
             modelBuilder.Entity("EchoClip.Models.VoiceRecordings", b =>
                 {
-                    b.Property<Guid>("VoideRecodingId")
+                    b.Property<Guid>("Voide_recoding_id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("OwnerUserId")
+                    b.Property<Guid>("Owner_user_id")
                         .HasColumnType("uuid");
 
                     b.Property<byte[]>("Recording")
                         .IsRequired()
                         .HasColumnType("bytea");
 
-                    b.Property<DateTime>("UploadDataTime")
+                    b.Property<DateTime>("Upload_data_time")
                         .HasColumnType("timestamp with time zone");
 
-                    b.HasKey("VoideRecodingId");
+                    b.HasKey("Voide_recoding_id");
 
-                    b.ToTable("VoiceRecordings");
+                    b.ToTable("Voice_recordings");
+                });
+
+            modelBuilder.Entity("EchoClip.Models.Chats", b =>
+                {
+                    b.HasOne("EchoClip.Models.Users", "Owner_user")
+                        .WithMany("Created_chats")
+                        .HasForeignKey("Owner_user_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Owner_user");
                 });
 
             modelBuilder.Entity("EchoClip.Models.ChatsVoiceRecordings", b =>
                 {
-                    b.HasOne("EchoClip.Models.Chats", null)
-                        .WithMany()
+                    b.HasOne("EchoClip.Models.Chats", "Chat")
+                        .WithMany("ChatsVoiceRecordings")
                         .HasForeignKey("ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EchoClip.Models.VoiceRecordings", null)
-                        .WithMany()
-                        .HasForeignKey("VoiceRecordingsId")
+                    b.HasOne("EchoClip.Models.VoiceRecordings", "VoiceRecording")
+                        .WithMany("ChatsVoiceRecordings")
+                        .HasForeignKey("VoiceRecordingId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Chat");
+
+                    b.Navigation("VoiceRecording");
                 });
 
-            modelBuilder.Entity("EchoClip.Models.UsersChats", b =>
+            modelBuilder.Entity("EchoClip.Models.UsersWhoJoinedChats", b =>
                 {
                     b.HasOne("EchoClip.Models.Chats", null)
                         .WithMany()
-                        .HasForeignKey("ChatId")
+                        .HasForeignKey("Chat_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("EchoClip.Models.Users", null)
                         .WithMany()
-                        .HasForeignKey("UsersId")
+                        .HasForeignKey("User_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("EchoClip.Models.Chats", b =>
+                {
+                    b.Navigation("ChatsVoiceRecordings");
+                });
+
+            modelBuilder.Entity("EchoClip.Models.Users", b =>
+                {
+                    b.Navigation("Created_chats");
+                });
+
+            modelBuilder.Entity("EchoClip.Models.VoiceRecordings", b =>
+                {
+                    b.Navigation("ChatsVoiceRecordings");
                 });
 #pragma warning restore 612, 618
         }

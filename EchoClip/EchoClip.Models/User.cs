@@ -7,7 +7,7 @@ public class Users
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid UserId { get; set; }
+    public Guid User_id { get; set; }
 
     [Required]
     public string Username { get; set; }
@@ -18,5 +18,8 @@ public class Users
     [Required]
     public string Email { get; set; }
 
-    public List<Chats> Chats { get; set; } = new();
+
+    public List<Chats> Created_chats { get; set; } = new();
+
+    public List<UsersWhoJoinedChats> Users_who_joined_chats { get; set; } = new();
 }

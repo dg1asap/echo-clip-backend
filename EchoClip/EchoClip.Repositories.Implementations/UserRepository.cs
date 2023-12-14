@@ -32,7 +32,7 @@ namespace EchoClip.Repositories.Implementations
         {
             return _context.Users
                 .Where(u => u.Username == username || u.Email == email)
-                .Select(u => u.UserId)
+                .Select(u => u.User_id)
                 .FirstOrDefault();
         }
     }
