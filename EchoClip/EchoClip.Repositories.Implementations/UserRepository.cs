@@ -22,7 +22,7 @@ namespace EchoClip.Repositories.Implementations
             return _context.Users.Any(u => u.Username == username || u.Email == email || u.Password == password);
         }
 
-        public void AddUser(User user)
+        public void AddUser(Users user)
         {
             _context.Users.Add(user);
             _context.SaveChanges();

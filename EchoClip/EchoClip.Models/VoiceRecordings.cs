@@ -3,20 +3,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EchoClip.Models;
 
-public class Users
+public class VoiceRecordings
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid UserId { get; set; }
+    public Guid VoideRecodingId { get; set; }
 
     [Required]
-    public string Username { get; set; }
+    public byte[] Recording { get; set; }
 
     [Required]
-    public string Password { get; set; }
+    public Guid OwnerUserId { get; set; }
 
     [Required]
-    public string Email { get; set; }
+    public DateTime UploadDataTime { get; set; }
 
     public List<Chats> Chats { get; set; } = new();
 }
