@@ -26,4 +26,8 @@ public class User
     public List<UserWhoJoinedChat> UsersWhoJoinedChats { get; set; } = new();
 
     public List<VoiceRecording> VoiceRecordings { get; set; } = new();
+
+    public List<UserRelationship> UserRelationshipsToOther { get; set; } = new();
+
+    public List<UserRelationship> OthersRelationshipsToUser {  get; set; } = new();
 }

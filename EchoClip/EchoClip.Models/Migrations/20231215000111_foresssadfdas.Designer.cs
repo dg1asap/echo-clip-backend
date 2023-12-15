@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EchoClip.Models.Migrations
 {
     [DbContext(typeof(DatabaseEchoClipContext))]
-    [Migration("20231214223707_foreignKeyChsdaf222hafaf2314safafdsasdf")]
-    partial class foreignKeyChsdaf222hafaf2314safafdsasdf
+    [Migration("20231215000111_foresssadfdas")]
+    partial class foresssadfdas
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -101,6 +101,27 @@ namespace EchoClip.Models.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("EchoClip.Models.UserRelationship", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("User_id");
+
+                    b.Property<Guid>("UserFriendId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("User_friend_id");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("UserId", "UserFriendId");
+
+                    b.HasIndex("UserFriendId");
+
+                    b.ToTable("Users_relationships");
+                });
+
             modelBuilder.Entity("EchoClip.Models.UserWhoJoinedChat", b =>
                 {
                     b.Property<Guid>("UserId")
@@ -174,6 +195,25 @@ namespace EchoClip.Models.Migrations
                     b.Navigation("VoiceRecording");
                 });
 
+            modelBuilder.Entity("EchoClip.Models.UserRelationship", b =>
+                {
+                    b.HasOne("EchoClip.Models.User", "UserFriend")
+                        .WithMany("OthersRelationshipsToUser")
+                        .HasForeignKey("UserFriendId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EchoClip.Models.User", "User")
+                        .WithMany("UserRelationshipsToOther")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("UserFriend");
+                });
+
             modelBuilder.Entity("EchoClip.Models.UserWhoJoinedChat", b =>
                 {
                     b.HasOne("EchoClip.Models.Chat", "Chat")
@@ -214,6 +254,10 @@ namespace EchoClip.Models.Migrations
             modelBuilder.Entity("EchoClip.Models.User", b =>
                 {
                     b.Navigation("CreatedChats");
+
+                    b.Navigation("OthersRelationshipsToUser");
+
+                    b.Navigation("UserRelationshipsToOther");
 
                     b.Navigation("UsersWhoJoinedChats");
 
