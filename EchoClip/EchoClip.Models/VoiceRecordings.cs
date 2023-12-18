@@ -13,6 +13,10 @@ public class VoiceRecording
     public Guid VoiceRecodingId { get; set; }
 
     [Required]
+    [Column("Name")]
+    public string Name { get; set; }
+
+    [Required]
     [Column("Owner_user_id")]
     public Guid OwnerUserId { get; set; }
 

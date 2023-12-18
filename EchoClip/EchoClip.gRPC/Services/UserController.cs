@@ -10,7 +10,8 @@ namespace EchoClip.gRPC.Services
 
         public override Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
         {
-            _userService.CreateUser(request.Username, request.Password, request.Email);
+/*            _userService.CreateUser(request.Username, request.Password, request.Email, request.name, request.surname);
+*/            _userService.CreateUser(request.Username, request.Password, request.Email);
             return Task.FromResult(new CreateUserResponse
             {
                 Username = request.Username,

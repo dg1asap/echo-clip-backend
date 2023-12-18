@@ -6,15 +6,66 @@ package user;
 
 service UserController {
 	rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
+	rpc GetMyFriends (GetMyFriendsRequest) returns (GetMyFriendsResponse);
+	rpc GetMyFriendsInvades (GetMyFriendsInvadesRequest) returns (GetMyFriendsInvadesResponse);
+	rpc GetRejectFriends (GetRejectFriendsRequest) returns (GetMyFriendsInvadesResponse);
+	rpc SendFriendInvade (SendFriendInvadeRequest) returns (SendFriendInvadeResponse);
+	rpc AcceptFriend (AcceptFriendRequest) returns (AcceptFriendResponse);
+	rpc RejectFriend (RejectFriendRequest) returns (RejectFriendResponse);
 }
 
 message CreateUserRequest {
 	string Username = 1;
 	string Password = 2;
 	string Email = 3;
+	string Name = 4;
+	string Surname = 5;
 }
 
 message CreateUserResponse {
 	string Username = 1;
 	string Email = 2;
 }
+
+message RelatedUser {
+	string id = 1;
+	string Username = 2;
+	string Name = 3;
+	string Surname = 4;
+}
+
+message GetMyFriendsRequest {}
+
+message GetMyFriendsResponse {
+	repeated RelatedUser myFriends = 1;
+}
+
+message GetMyFriendsInvadesRequest {}
+
+message GetMyFriendsInvadesResponse {
+	repeated RelatedUser myFriendsInvades = 1;
+}
+
+message GetRejectFriendsRequest {}
+
+message GetRejectFriendsResponse {
+	repeated RelatedUser myRejectedFriends = 1;
+}
+
+message SendFriendInvadeRequest {
+	string userFriendId = 1;
+}
+
+message SendFriendInvadeResponse {}
+
+message AcceptFriendRequest {
+	string userFriendId = 1;
+}
+
+message AcceptFriendResponse {}
+
+message RejectFriendRequest {
+	string userFriendId = 1;
+}
+
+message RejectFriendResponse {}

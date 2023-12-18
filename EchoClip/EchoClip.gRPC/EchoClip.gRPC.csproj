@@ -7,8 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Protos\chat.proto" />
+    <None Remove="Protos\VoiceRecording.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="Protos\voiceRecording.proto" GrpcServices="Server" />
     <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
 	<Protobuf Include="Protos\auth.proto" GrpcServices="Server" />
+	<Protobuf Include="Protos\chat.proto">
+	  <GrpcServices>Server</GrpcServices>
+	</Protobuf>
 	<Protobuf Include="Protos\user.proto" GrpcServices="Server" />
   </ItemGroup>
 

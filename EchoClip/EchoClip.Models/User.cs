@@ -20,6 +20,11 @@ public class User
     [Required]
     public string Email { get; set; }
 
+    [Required]
+    public string Name { get; set; }
+
+    [Required]
+    public string Surname { get; set; }
 
     public List<Chat> CreatedChats { get; set; } = new();
 

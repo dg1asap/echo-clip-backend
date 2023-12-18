@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+option csharp_namespace = "EchoClip.gRPC";
+
+package chat;
+
+service ChatController {
+	rpc CreateChat (CreateChatRequest) returns (CreateChatResponse);
+	rpc GetJointedChats (GetJointedChatsRequest) returns (GetJointedChatsResponse);
+	rpc GetVocieRocrdingsInChat (GetVoiceRecordingsInChatRequest) returns (GetVoiceRecordingsInChatResponse);
+	rpc GetChatsICreated (GetChatsICreatedRequest) returns (GetChatsICreatedResponse);
+	rpc AddVoiceRecordingToChat (AddVoiceRecordingToChatRequest) returns (AddVoiceRecordingToChatResponse);
+	rpc GetUsersInChat (GetUsersInChatRequest) returns (GetUsersInChatResponse);
+}
+
+message CreateChatRequest {
+	string name = 1;
+}
+
+message CreateChatResponse {}
+
+message UserChat {
+	string id = 1;
+	string name = 2;
+}
+
+// Czaty do ktorych dolaczylem, nie podaje id user bo jest przechywytywany przez authorization token
+message GetJointedChatsRequest {}
+
+message GetJointedChatsResponse {
+	repeated UserChat jointedChats = 1;
+}
+
+// Czaty ktore stworzylen, nie podaje id user bo jest przechywytywany przez authorization token
+message GetChatsICreatedRequest {}
+
+message GetChatsICreatedResponse {
+	repeated UserChat createdChats = 1;
+}
+
+message VoiceRecodringInChatInfo {
+	string id = 1;
+	string name = 2;
+}
+
+message GetVoiceRecordingsInChatRequest {
+	string chatId = 1;
+}
+
+message GetVoiceRecordingsInChatResponse {
+	repeated VoiceRecodringInChatInfo VoiceRecodringInChatInfo = 1;
+}
+
+// TODO do przemyslenia jak to zrobic czysto i zachowac performance. 
+// Tak wiem, trzeba wykonac 2 strzaly aby dodac voiceRecording do czatu
+// 1. Dodac voice recording do bazy.
+// 2. Popiac voice recoding pod czat.
+message AddVoiceRecordingToChatRequest {
+	string czatId = 1;
+	string voiceRecordingId = 2;
+}
+
+message AddVoiceRecordingToChatResponse {}
+
+message UserFromChat {
+	string Username = 1;
+	string Name = 2;
+	string Surname = 3;
+}
+
+message GetUsersInChatRequest {
+	string czatId = 1;
+}
+
+message GetUsersInChatResponse {
+	repeated UserFromChat UserFromChat = 1;
+}
