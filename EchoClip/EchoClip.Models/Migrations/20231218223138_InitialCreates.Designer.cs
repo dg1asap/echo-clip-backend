@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EchoClip.Models.Migrations
 {
     [DbContext(typeof(DatabaseEchoClipContext))]
-    [Migration("20231215000256_foresssadfdasasfdsss")]
-    partial class foresssadfdasasfdsss
+    [Migration("20231218223138_InitialCreates")]
+    partial class InitialCreates
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -82,7 +82,15 @@ namespace EchoClip.Models.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -121,7 +129,7 @@ namespace EchoClip.Models.Migrations
 
                     b.ToTable("Users_relationships", null, t =>
                         {
-                            t.HasCheckConstraint("CK_UserRelationship_Status", "\"Status\" IN ('PENDING', 'ACCEPTED', 'REJECTED')");
+                            t.HasCheckConstraint("CK_USER_STAT", "\"Status\" IN ('PENDING', 'ACCEPTED', 'REJECTED')");
                         });
                 });
 
@@ -148,6 +156,11 @@ namespace EchoClip.Models.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("Voice_recording_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Name");
 
                     b.Property<Guid>("OwnerUserId")
                         .HasColumnType("uuid")

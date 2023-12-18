@@ -79,7 +79,15 @@ namespace EchoClip.Models.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -145,6 +153,11 @@ namespace EchoClip.Models.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("Voice_recording_id");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Name");
 
                     b.Property<Guid>("OwnerUserId")
                         .HasColumnType("uuid")

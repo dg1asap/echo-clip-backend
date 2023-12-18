@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EchoClip.Models.Migrations
 {
     /// <inheritdoc />
-    public partial class foresssadfdas : Migration
+    public partial class InitialCreates : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,7 +18,9 @@ namespace EchoClip.Models.Migrations
                     User_id = table.Column<Guid>(type: "uuid", nullable: false),
                     Username = table.Column<string>(type: "text", nullable: false),
                     Password = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false)
+                    Email = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Surname = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -55,6 +57,7 @@ namespace EchoClip.Models.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users_relationships", x => new { x.User_id, x.User_friend_id });
+                    table.CheckConstraint("CK_USER_STAT", "\"Status\" IN ('PENDING', 'ACCEPTED', 'REJECTED')");
                     table.ForeignKey(
                         name: "FK_Users_relationships_Users_User_friend_id",
                         column: x => x.User_friend_id,
@@ -74,6 +77,7 @@ namespace EchoClip.Models.Migrations
                 columns: table => new
                 {
                     Voice_recording_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     Owner_user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     Recording = table.Column<byte[]>(type: "bytea", nullable: false),
                     Upload_data_time = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
