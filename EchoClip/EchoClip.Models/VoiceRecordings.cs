@@ -10,7 +10,7 @@ public class VoiceRecording
     [Key]
     [Column("Voice_recording_id")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public Guid VoiceRecodingId { get; set; }
+    public Guid VoiceRecordingId { get; set; }
 
     [Required]
     [Column("Name")]
@@ -21,7 +21,8 @@ public class VoiceRecording
     public Guid OwnerUserId { get; set; }
 
     [Required]
-    public byte[] Recording { get; set; }
+    [Column("Audio_data")]
+    public byte[] AudioData { get; set; }
 
     [Required]
     [Column("Upload_data_time")]

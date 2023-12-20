@@ -31,4 +31,19 @@ public class UserService : IUserService
     }
 
     public Guid? GetUserGuidFromUsernameOrEmail(string username, string email) => _userRepository.GetUserGUIDFormUsernameOrEmail(username, email);
+
+    public List<User> GetUsersThatUserSetStatus(Guid myId, string relation)
+    {
+        throw new NotImplementedException();
+    }
+
+    public List<User> GetUsersWhoSetUserStatus(Guid myId, string relation)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetRelationToUser(Guid myId, Guid userFriendId, string relation)
+    {
+        throw new NotImplementedException();
+    }
 }

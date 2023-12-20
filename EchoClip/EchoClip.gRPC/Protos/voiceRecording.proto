@@ -8,21 +8,19 @@ package voiceRecording;
 
 service VoiceRecodringController {
 	rpc CreateVoiceRecording (CreateVoiceRecordingRequest) returns (CreateVoiceRecordingResponse);
-	rpc GetUserVoiceRecording (GetMyVoiceRecordingRequest) returns (GetMyVoiceRecordingResponse);
+	rpc GetMyVoiceRecording (GetMyVoiceRecordingRequest) returns (GetMyVoiceRecordingResponse);
 }
 
 message VoiceRecodringMessage {
-	string VoiceRecodringId = 1;
+	string VoiceRecordingId = 1;
 	string name = 2;
 	bytes audio_data = 3;
-	google.protobuf.Timestamp uploadDataTime = 4;
 }
 
 message CreateVoiceRecordingRequest {
 	string VoiceRecodringId = 1;
 	string name = 2;
 	bytes audio_data = 3;
-	google.protobuf.Timestamp uploadDataTime = 4;
 }
 
 message CreateVoiceRecordingResponse {}

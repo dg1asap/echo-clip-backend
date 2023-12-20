@@ -6,10 +6,14 @@ package user;
 
 service UserController {
 	rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
-	rpc GetMyFriends (GetMyFriendsRequest) returns (GetMyFriendsResponse);
-	rpc GetMyFriendsInvades (GetMyFriendsInvadesRequest) returns (GetMyFriendsInvadesResponse);
-	rpc GetRejectFriends (GetRejectFriendsRequest) returns (GetMyFriendsInvadesResponse);
-	rpc SendFriendInvade (SendFriendInvadeRequest) returns (SendFriendInvadeResponse);
+	
+	rpc GetFriends (GetFriendsRequest) returns (GetFriendsResponse);
+	rpc GetInvitedFriends (GetInvitedFriendsRequest) returns (GetInvitedFriendsResponse);
+	rpc GetInvitationsForMe (GetInvitationsForMeRequest) returns (GetInvitationsForMeResponse);
+	rpc GetRejectedFriends (GetRejectedFriendsRequest) returns (GetRejectedFriendsResponse);
+	
+	rpc SendFriendInvitation (SendFriendInvitationRequest) returns (SendFriendInvitationResponse);
+	
 	rpc AcceptFriend (AcceptFriendRequest) returns (AcceptFriendResponse);
 	rpc RejectFriend (RejectFriendRequest) returns (RejectFriendResponse);
 }
@@ -34,29 +38,35 @@ message RelatedUserMessage {
 	string Surname = 4;
 }
 
-message GetMyFriendsRequest {}
+message GetFriendsRequest {}
 
-message GetMyFriendsResponse {
-	repeated RelatedUserMessage myFriends = 1;
+message GetFriendsResponse {
+	repeated RelatedUserMessage Friends = 1;
 }
 
-message GetMyFriendsInvadesRequest {}
+message GetInvitedFriendsRequest {}
 
-message GetMyFriendsInvadesResponse {
-	repeated RelatedUserMessage myFriendsInvades = 1;
+message GetInvitedFriendsResponse {
+	repeated RelatedUserMessage FiendsWhoIInvited = 1;
 }
 
-message GetRejectFriendsRequest {}
+message GetInvitationsForMeRequest {}
 
-message GetRejectFriendsResponse {
-	repeated RelatedUserMessage myRejectedFriends = 1;
+message GetInvitationsForMeResponse {
+	repeated RelatedUserMessage FiendsWhoInvitedMe = 1;
 }
 
-message SendFriendInvadeRequest {
+message GetRejectedFriendsRequest {}
+
+message GetRejectedFriendsResponse {
+	repeated RelatedUserMessage RejectedFriends = 1;
+}
+
+message SendFriendInvitationRequest {
 	string userFriendId = 1;
 }
 
-message SendFriendInvadeResponse {}
+message SendFriendInvitationResponse {}
 
 message AcceptFriendRequest {
 	string userFriendId = 1;
