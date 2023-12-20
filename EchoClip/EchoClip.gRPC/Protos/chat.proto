@@ -14,41 +14,41 @@ service ChatController {
 }
 
 message CreateChatRequest {
-	string name = 1;
+	string Name = 1;
 }
 
 message CreateChatResponse {}
 
-message UserChat {
-	string id = 1;
-	string name = 2;
+message UserChatMessage {
+	string Id = 1;
+	string Name = 2;
 }
 
 // Czaty do ktorych dolaczylem, nie podaje id user bo jest przechywytywany przez authorization token
 message GetJointedChatsRequest {}
 
 message GetJointedChatsResponse {
-	repeated UserChat jointedChats = 1;
+	repeated UserChatMessage JointedChats = 1;
 }
 
 // Czaty ktore stworzylen, nie podaje id user bo jest przechywytywany przez authorization token
 message GetChatsICreatedRequest {}
 
 message GetChatsICreatedResponse {
-	repeated UserChat createdChats = 1;
+	repeated UserChatMessage CreatedChats = 1;
 }
 
-message VoiceRecodringInChatInfo {
-	string id = 1;
-	string name = 2;
+message VoiceRecodringInChatMessage {
+	string Id = 1;
+	string Name = 2;
 }
 
 message GetVoiceRecordingsInChatRequest {
-	string chatId = 1;
+	string ChatId = 1;
 }
 
 message GetVoiceRecordingsInChatResponse {
-	repeated VoiceRecodringInChatInfo VoiceRecodringInChatInfo = 1;
+	repeated VoiceRecodringInChatMessage VoiceRecodringInChatInfo = 1;
 }
 
 // TODO do przemyslenia jak to zrobic czysto i zachowac performance. 
@@ -56,22 +56,22 @@ message GetVoiceRecordingsInChatResponse {
 // 1. Dodac voice recording do bazy.
 // 2. Popiac voice recoding pod czat.
 message AddVoiceRecordingToChatRequest {
-	string czatId = 1;
-	string voiceRecordingId = 2;
+	string CzatId = 1;
+	string VoiceRecordingId = 2;
 }
 
 message AddVoiceRecordingToChatResponse {}
 
-message UserFromChat {
+message UserFromChatMessage {
 	string Username = 1;
 	string Name = 2;
 	string Surname = 3;
 }
 
 message GetUsersInChatRequest {
-	string czatId = 1;
+	string CzatId = 1;
 }
 
 message GetUsersInChatResponse {
-	repeated UserFromChat UserFromChat = 1;
+	repeated UserFromChatMessage UserFromChatMessage = 1;
 }

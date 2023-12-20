@@ -11,11 +11,11 @@ namespace EchoClip.gRPC.Services
         [Authorize]
         public override Task<HelloReply> SayHello(HelloRequest request, ServerCallContext context)
         {
-            var username = _tokenReader.GetUserGUID();
+            var myId = _tokenReader.GetUserGUID();
 
             return Task.FromResult(new HelloReply
             {
-                Message = "Hello " + "XXX" + username + "XXX" + request.Name
+                Message = "Hello " + "XXX" + myId + "XXX" + request.Name
             });;
         } 
     }
