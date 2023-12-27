@@ -3,16 +3,10 @@ using EchoClip.Repositories.Interfaces;
 
 namespace EchoClip.gRPC.Implementations;
 
-public class CredentialsValidator : ICredentialsValidator
+public class CredentialsValidator(IUserRepository userRepository) : ICredentialsValidator
 {
-    private IUserRepository _userRepository;
-
-    public CredentialsValidator(IUserRepository userRepository) {
-        _userRepository = userRepository;
-    }
-    
     public bool validLogin(string login, string password)
     {
-        return _userRepository.IsUserWithNameOrEmailAndPassword(login, login, password);
+        return userRepository.IsUserWithNameOrEmailAndPassword(login, login, password);
     }
 }

@@ -1,39 +1,27 @@
 ﻿using EchoClip.Models;
 using EchoClip.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
-namespace EchoClip.Repositories.Implementations
+namespace EchoClip.Repositories.Implementations;
+
+public class UserRepository : GenericRepository<User>, IUserRepository
 {
-    public class UserRepository : IUserRepository
+    public UserRepository(DatabaseEchoClipContext context) : base(context) { }
+
+    public bool IsUserWithNameOrEmailAndPassword(string username, string email, string password)
     {
-        private readonly DatabaseEchoClipContext _context;
+        return _table.Any(u => (u.Username == username || u.Email == email) && u.Password == password);
+    }
 
-        public UserRepository(DatabaseEchoClipContext context)
-        {
-            _context = context;
-        }
+    public bool IsUserWithNameOrEmailOrPassword(string username, string email, string password)
+    {
+        return _table.Any(u => u.Username == username || u.Email == email || u.Password == password);
+    }
 
-        public bool IsUserWithNameOrEmailAndPassword(string username, string email, string password)
-        {
-            return _context.Users.Any(u => (u.Username == username || u.Email == email) && u.Password == password);
-        }
-
-        public bool IsUserWithNameOrEmailOrPassword(string username, string email, string password)
-        {
-            return _context.Users.Any(u => u.Username == username || u.Email == email || u.Password == password);
-        }
-
-        public void AddUser(User user)
-        {
-            _context.Users.Add(user);
-            _context.SaveChanges();
-        }
-
-        public Guid? GetUserGUIDFormUsernameOrEmail(string username, string email)
-        {
-            return _context.Users
-                .Where(u => u.Username == username || u.Email == email)
-                .Select(u => u.UserId)
-                .FirstOrDefault();
-        }
+    public Guid? GetUserGUIDFormUsernameOrEmail(string username, string email)
+    {
+        return _table.Where(u => u.Username == username || u.Email == email)
+            .Select(u => u.UserId)
+            .FirstOrDefault();
     }
 }

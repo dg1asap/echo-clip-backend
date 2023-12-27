@@ -1,37 +1,105 @@
 ﻿using EchoClip.gRPC.Interfaces;
 using EchoClip.Models;
+using EchoClip.Repositories.Interfaces;
 
 namespace EchoClip.Services.Implementations;
 
-public class ChatService : IChatService
+public class ChatService(IChatRepository chatRepository, 
+    IChatVoiceRecordingRepository chatVoiceRecordingRepository, 
+    IUserWhoJoinedChatRepository userWhoJoinedChatRepository,
+    IVoiceRecordingRepository voiceRecordingRepository,
+    IUserRepository userRepository) : IChatService
 {
-    public void AddVoiceRecordingToChat(string voiceRecordingId, string czatId)
+    private readonly IChatRepository _chatRepository = chatRepository;
+
+    private readonly IChatVoiceRecordingRepository _chatVoiceRecordingRepository = chatVoiceRecordingRepository;
+
+    private readonly IUserWhoJoinedChatRepository _userWhoJoinedChatRepository = userWhoJoinedChatRepository;
+
+    private readonly IUserRepository _userRepository = userRepository;
+
+    private readonly IVoiceRecordingRepository _voiceRecordingRepository = voiceRecordingRepository;
+
+    public void AddVoiceRecordingToChat(Guid voiceRecordingId, Guid czatId)
     {
-        throw new NotImplementedException();
+        ChatsVoiceRecording chatsVoiceRecording = new ChatsVoiceRecording
+        {
+            ChatId = czatId,
+            VoiceRecordingId = voiceRecordingId,
+            DataOfAdded = DateTime.Now
+        };
+        _chatVoiceRecordingRepository.Insert(chatsVoiceRecording);
     }
 
-    public void CreateChat(string name)
+    public void CreateChat(string name, Guid ownerId)
     {
-        throw new NotImplementedException();
+        Chat chat = new Chat
+        {
+            ChatId = Guid.NewGuid(),
+            Name = name,
+            OwnerUserId = ownerId
+        };
+        _chatRepository.Insert(chat);
     }
 
     public List<Chat> GetChatsICreated(Guid myId)
     {
-        throw new NotImplementedException();
+        return _chatRepository.GetChatsWithOwnerUserId(myId);
     }
 
     public List<Chat> GetJointedChats(Guid myId)
     {
-        throw new NotImplementedException();
+        List<UserWhoJoinedChat> userWhoJoinedChats = _userWhoJoinedChatRepository.GetChatIdWhereUserWithIdJointed(myId);
+
+        List<Chat> chats = new List<Chat>();
+        foreach (UserWhoJoinedChat userWhoJoinedChat in userWhoJoinedChats)
+        {
+            Chat chat = _chatRepository.GetById(userWhoJoinedChat.ChatId);
+
+            if (chat != null)
+            {
+                chats.Add(chat);
+            }
+        }
+
+        return chats;
     }
 
-    public List<User> GetUsersInChat(string czatId)
+    public List<User> GetUsersInChat(Guid chatId)
     {
-        throw new NotImplementedException();
+        List<UserWhoJoinedChat> userWhoJoinedChats = _userWhoJoinedChatRepository.GetUsersWhoJoinedChatWithChatId(chatId);
+
+        List<User> users = new List<User>();
+        foreach (UserWhoJoinedChat userWhoJoinedChat in userWhoJoinedChats)
+        {
+            User user = _userRepository.GetById(userWhoJoinedChat.UserId);
+
+            if (user != null)
+            {
+                users.Add(user);
+            }
+        }
+
+        return users;
     }
 
-    public List<VoiceRecording> GetVocieRocrdingsInChat(string chatId)
+    // TODO W razie problemow z wydajnoscia zmienic na pojedyncze odpytanie z bazy danych
+    public List<VoiceRecording> GetVoiceRecordingsInChat(Guid chatId)
     {
-        throw new NotImplementedException();
+        List<ChatsVoiceRecording> chatsVoiceRecordings = _chatVoiceRecordingRepository.GetChatVoiceRecordingWithChatId(chatId);
+        chatsVoiceRecordings.Sort((x, y) => x.DataOfAdded.CompareTo(y.DataOfAdded));
+
+        List<VoiceRecording> voiceRecordings = new List<VoiceRecording>();
+        foreach (ChatsVoiceRecording chatVoiceRecording in chatsVoiceRecordings)
+        {
+            VoiceRecording voiceRecording = _voiceRecordingRepository.GetById(chatVoiceRecording.VoiceRecordingId);
+
+            if (voiceRecording != null)
+            {
+                voiceRecordings.Add(voiceRecording);
+            }
+        }
+
+        return voiceRecordings;
     }
 }

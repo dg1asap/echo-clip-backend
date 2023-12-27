@@ -12,13 +12,16 @@ class ChatController(ILogger<AuthController> logger, IChatService chatService, U
 
     public override Task<AddVoiceRecordingToChatResponse> AddVoiceRecordingToChat(AddVoiceRecordingToChatRequest request, ServerCallContext context)
     {
-        _chatService.AddVoiceRecordingToChat(request.VoiceRecordingId, request.CzatId);
+        _chatService.AddVoiceRecordingToChat(Guid.Parse(request.VoiceRecordingId), Guid.Parse(request.ChatId));
         return Task.FromResult(new AddVoiceRecordingToChatResponse{});
     }
 
     public override Task<CreateChatResponse> CreateChat(CreateChatRequest request, ServerCallContext context)
     {
-        _chatService.CreateChat(request.Name);
+        Guid myId = _userFromTokenReader.GetUserGUID() ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "To nie jest mój guid!"));
+
+        _chatService.CreateChat(request.Name, myId);
+
         return Task.FromResult(new CreateChatResponse{});
     }
 
@@ -58,7 +61,7 @@ class ChatController(ILogger<AuthController> logger, IChatService chatService, U
 
     public override Task<GetUsersInChatResponse> GetUsersInChat(GetUsersInChatRequest request, ServerCallContext context)
     {
-        List<User> users = _chatService.GetUsersInChat(request.CzatId);
+        List<User> users = _chatService.GetUsersInChat(Guid.Parse(request.ChatId));
         List<UserFromChatMessage> usersFromChatMessages = users.Select(
             user => new UserFromChatMessage
             {
@@ -75,7 +78,7 @@ class ChatController(ILogger<AuthController> logger, IChatService chatService, U
 
     public override Task<GetVoiceRecordingsInChatResponse> GetVocieRocrdingsInChat(GetVoiceRecordingsInChatRequest request, ServerCallContext context)
     {
-        List<VoiceRecording> voiceRecordings = _chatService.GetVocieRocrdingsInChat(request.ChatId);
+        List<VoiceRecording> voiceRecordings = _chatService.GetVoiceRecordingsInChat(Guid.Parse(request.ChatId));
         List<VoiceRecodringInChatMessage> voiceRecodringInChatMessages = voiceRecordings.Select(
             voiceRecording => new VoiceRecodringInChatMessage {
                 Id = voiceRecording.VoiceRecordingId.ToString(),

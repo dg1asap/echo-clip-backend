@@ -56,7 +56,7 @@ message GetVoiceRecordingsInChatResponse {
 // 1. Dodac voice recording do bazy.
 // 2. Popiac voice recoding pod czat.
 message AddVoiceRecordingToChatRequest {
-	string CzatId = 1;
+	string ChatId = 1;
 	string VoiceRecordingId = 2;
 }
 
@@ -69,7 +69,7 @@ message UserFromChatMessage {
 }
 
 message GetUsersInChatRequest {
-	string CzatId = 1;
+	string ChatId = 1;
 }
 
 message GetUsersInChatResponse {

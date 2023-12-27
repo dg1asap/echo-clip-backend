@@ -4,17 +4,16 @@ using EchoClip.Repositories.Interfaces;
 
 namespace EchoClip.gRPC.Implementations;
 
-public class UserService : IUserService
+public class UserService(IUserRepository userRepository,
+    IUserRelationshipRepository userRelationshipRepository) : IUserService
 {
-    private IUserRepository _userRepository;
+    private readonly IUserRepository _userRepository = userRepository;
 
-    public UserService(IUserRepository userRepository) {
-        _userRepository = userRepository;
-    }
+    private readonly IUserRelationshipRepository _userRelationshipRepository = userRelationshipRepository;
 
-    public void CreateUser(string username, string password, string email) //TODO [Prioritet: LOW] Jak w .NET Core robić pojedyncza tranzakcje na 2 zapytania bazodanowe?
+    public void CreateUser(string username, string password, string email, string name, string surname) //TODO [Prioritet: LOW] Jak w .NET Core robić pojedyncza tranzakcje na 2 zapytania bazodanowe?
     {
-        if (_userRepository.IsUserWithNameOrEmailOrPassword(username, email, password))
+        if (userRepository.IsUserWithNameOrEmailOrPassword(username, email, password))
         {
             throw new Exception("This user exist, change login data");
         }
@@ -24,26 +23,60 @@ public class UserService : IUserService
             UserId = Guid.NewGuid(),
             Username = username,
             Password = password,
-            Email = email
+            Email = email,
+            Name = name,
+            Surname = surname
         };
 
-        _userRepository.AddUser(newUser);
+        userRepository.Insert(newUser);
     }
 
-    public Guid? GetUserGuidFromUsernameOrEmail(string username, string email) => _userRepository.GetUserGUIDFormUsernameOrEmail(username, email);
+    public Guid? GetUserGuidFromUsernameOrEmail(string username, string email) => userRepository.GetUserGUIDFormUsernameOrEmail(username, email);
 
-    public List<User> GetUsersThatUserSetStatus(Guid myId, string relation)
+    // TODO myId zmienic na bardziej ogolna nazwe
+    public List<User> GetUsersThatUserSetStatus(Guid userId, string relation)
     {
-        throw new NotImplementedException();
+        List<UserRelationship> userRelationships = _userRelationshipRepository.GetUserRelationshipsWithUserIdAndStatus(userId, relation);
+
+        List<User> user = new List<User>();
+        foreach (UserRelationship userRelationship in userRelationships)
+        {
+            User userFriend = _userRepository.GetById(userRelationship.UserFriendId);
+
+            if (userFriend != null) 
+            {
+                user.Add(userFriend);
+            }
+        }
+        return user;
     }
 
-    public List<User> GetUsersWhoSetUserStatus(Guid myId, string relation)
+    // TODO myId zmienic na bardziej ogolna nazwe
+    public List<User> GetUsersWhoSetUserStatus(Guid userId, string relation)
     {
-        throw new NotImplementedException();
+        List<UserRelationship> userRelationships = _userRelationshipRepository.GetUserRelationshipsWithUserFriendIdAndStatus(userId, relation);
+
+        List<User> user = new List<User>();
+        foreach (UserRelationship userRelationship in userRelationships)
+        {
+            User userFriend = _userRepository.GetById(userRelationship.UserId);
+
+            if (userFriend != null)
+            {
+                user.Add(userFriend);
+            }
+        }
+        return user;
     }
 
-    public void SetRelationToUser(Guid myId, Guid userFriendId, string relation)
+    public void SetRelationToUser(Guid userId, Guid userFriendId, string relation)
     {
-        throw new NotImplementedException();
+        UserRelationship userRelationship = new UserRelationship
+        {
+            UserId = userId,
+            UserFriendId = userFriendId,
+            Status = relation
+        };
+        _userRelationshipRepository.Insert(userRelationship);
     }
 }

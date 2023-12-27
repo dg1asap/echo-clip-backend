@@ -89,10 +89,10 @@ public class DatabaseEchoClipContext : DbContext
             .HasCheckConstraint("CK_USER_STAT", "\"Status\" IN ('PENDING', 'ACCEPTED', 'REJECTED')");
     }
 
-    public DbSet<User> Users { get; set; }
+/*    public DbSet<User> Users { get; set; }
     public DbSet<Chat> Chats { get; set; }
     public DbSet<VoiceRecording> VoiceRecordings { get; set; }
     public DbSet<UserWhoJoinedChat> UsersWhoJoinedChats { get; set; }
     public DbSet<ChatsVoiceRecording> ChatsVoiceRecordings { get; set; }
-    public DbSet<UserRelationship> UserRelationships { get; set; }
+    public DbSet<UserRelationship> UserRelationships { get; set; }*/
 }

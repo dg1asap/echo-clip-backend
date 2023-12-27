@@ -4,11 +4,11 @@ namespace EchoClip.gRPC.Interfaces
 {
     public interface IChatService
     {
-        void AddVoiceRecordingToChat(string voiceRecordingId, string czatId);
-        void CreateChat(string name);
+        void AddVoiceRecordingToChat(Guid voiceRecordingId, Guid czatId);
+        void CreateChat(string name, Guid ownerId);
         List<Chat> GetChatsICreated(Guid myId);
         List<Chat> GetJointedChats(Guid myId);
-        List<User> GetUsersInChat(string czatId);
-        List<VoiceRecording> GetVocieRocrdingsInChat(string chatId);
+        List<User> GetUsersInChat(Guid czatId);
+        List<VoiceRecording> GetVoiceRecordingsInChat(Guid chatId);
     }
 }

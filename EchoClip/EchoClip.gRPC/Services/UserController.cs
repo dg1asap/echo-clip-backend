@@ -12,8 +12,8 @@ class UserController(ILogger<AuthController> logger, IUserService userService, U
 
     public override Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
     {
-/*            _userService.CreateUser(request.Username, request.Password, request.Email, request.name, request.surname);
-*/      _userService.CreateUser(request.Username, request.Password, request.Email);
+        _userService.CreateUser(request.Username, request.Password, request.Email, request.Name, request.Surname);
+
         return Task.FromResult(new CreateUserResponse
         {
             Username = request.Username,
