@@ -21,8 +21,8 @@ public class VoiceRecording
     public Guid OwnerUserId { get; set; }
 
     [Required]
-    [Column("Audio_data")]
-    public byte[] AudioData { get; set; }
+    [Column("Audio_data_path")]
+    public string AudioDataPath { get; set; }
 
     [Required]
     [Column("Upload_data_time")]

@@ -23,10 +23,6 @@ public class DatabaseEchoClipContext : DbContext
             .HasIndex(u => u.Email)
             .IsUnique();
 
-        modelBuilder.Entity<ChatsVoiceRecording>()
-            .HasIndex(u => u.DataOfAdded)
-            .IsUnique();
-
         // --- oOo --- Klucze glow zlozone --- oOo ---
         modelBuilder.Entity<UserWhoJoinedChat>()
             .HasKey(e => new { e.UserId, e.ChatId });
@@ -87,6 +83,22 @@ public class DatabaseEchoClipContext : DbContext
         modelBuilder.Entity<UserRelationship>()
             .ToTable("Users_relationships")
             .HasCheckConstraint("CK_USER_STAT", "\"Status\" IN ('PENDING', 'ACCEPTED', 'REJECTED')");
+
+        DatabaseUserSeeder databaseUserSeeder = new DatabaseUserSeeder();
+        DatabaseChatSeeder databaseChatSeeder = new DatabaseChatSeeder();
+        DatabaseVoiceRecordingSeeder databaseVoiceRecordingSeeder = new DatabaseVoiceRecordingSeeder();
+
+        DatabaseUserRelationshipSeeder databaseUserRelationshipSeeder = new DatabaseUserRelationshipSeeder();
+        DatabaseUserWhoJoinedChatSeeder databaseUserWhoJoinedChatSeeder = new DatabaseUserWhoJoinedChatSeeder();
+        DatabaseChatVoiceRecordingSeeder databaseChatVoiceRecordingSeeder = new DatabaseChatVoiceRecordingSeeder();
+
+        databaseUserSeeder.seedData(modelBuilder);
+        databaseChatSeeder.seedData(modelBuilder);
+        databaseVoiceRecordingSeeder.seedData(modelBuilder);
+
+        databaseUserRelationshipSeeder.seedData(modelBuilder);
+        databaseUserWhoJoinedChatSeeder.seedData(modelBuilder);
+        databaseChatVoiceRecordingSeeder.seedData(modelBuilder);
     }
 
 /*    public DbSet<User> Users { get; set; }

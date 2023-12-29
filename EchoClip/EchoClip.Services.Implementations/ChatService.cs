@@ -8,7 +8,8 @@ public class ChatService(IChatRepository chatRepository,
     IChatVoiceRecordingRepository chatVoiceRecordingRepository, 
     IUserWhoJoinedChatRepository userWhoJoinedChatRepository,
     IVoiceRecordingRepository voiceRecordingRepository,
-    IUserRepository userRepository) : IChatService
+    IUserRepository userRepository,
+    IUserRelationshipRepository userRelationshipRepository) : IChatService
 {
     private readonly IChatRepository _chatRepository = chatRepository;
 
@@ -20,6 +21,8 @@ public class ChatService(IChatRepository chatRepository,
 
     private readonly IVoiceRecordingRepository _voiceRecordingRepository = voiceRecordingRepository;
 
+    private readonly IUserRelationshipRepository _userRelationshipRepository = userRelationshipRepository;
+
     public void AddVoiceRecordingToChat(Guid voiceRecordingId, Guid czatId)
     {
         ChatsVoiceRecording chatsVoiceRecording = new ChatsVoiceRecording
@@ -29,6 +32,21 @@ public class ChatService(IChatRepository chatRepository,
             DataOfAdded = DateTime.Now
         };
         _chatVoiceRecordingRepository.Insert(chatsVoiceRecording);
+        _chatVoiceRecordingRepository.Save();
+    }
+
+    public void AddFriendToChat(Guid myId, Guid friendId, Guid chatId)
+    {
+        if (!_userWhoJoinedChatRepository.IsUserInChat(friendId, chatId) && _userRelationshipRepository.UserHasFriendWithStatus(myId, friendId, "ACCEPTED"))
+        {
+            UserWhoJoinedChat userWhoJoinedChat = new UserWhoJoinedChat
+            {
+                UserId = friendId,
+                ChatId = chatId
+            };
+            _userWhoJoinedChatRepository.Insert(userWhoJoinedChat);
+            _userWhoJoinedChatRepository.Save();
+        }
     }
 
     public void CreateChat(string name, Guid ownerId)
@@ -40,6 +58,7 @@ public class ChatService(IChatRepository chatRepository,
             OwnerUserId = ownerId
         };
         _chatRepository.Insert(chat);
+        _chatRepository.Save();
     }
 
     public List<Chat> GetChatsICreated(Guid myId)

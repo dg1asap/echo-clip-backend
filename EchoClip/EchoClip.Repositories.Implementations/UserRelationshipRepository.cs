@@ -8,13 +8,18 @@ public class UserRelationshipRepository : GenericRepository<UserRelationship>, I
 {
     public UserRelationshipRepository(DatabaseEchoClipContext context) : base(context) { }
 
-    public List<UserRelationship> GetUserRelationshipsWithUserFriendIdAndStatus(Guid userId, string relation)
+    public List<UserRelationship> GetUserRelationshipsWithUserFriendIdAndStatus(Guid userFriendId, string relation)
     {
-        return _table.Where(e => e.UserFriendId == userId && e.Status == relation).ToList();
+        return _table.Where(e => e.UserFriendId == userFriendId && e.Status == relation).ToList();
     }
 
     public List<UserRelationship> GetUserRelationshipsWithUserIdAndStatus(Guid userId, string relation)
     {
-        throw new NotImplementedException();
+        return _table.Where(e => e.UserId == userId && e.Status == relation).ToList();
+    }
+
+    public bool UserHasFriendWithStatus(Guid myId, Guid friendId, string status)
+    {
+        return _table.Any(e => e.UserId == myId && e.UserFriendId == friendId && e.Status == status);
     }
 }

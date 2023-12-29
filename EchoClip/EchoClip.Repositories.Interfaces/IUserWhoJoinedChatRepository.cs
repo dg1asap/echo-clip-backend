@@ -6,4 +6,5 @@ public interface IUserWhoJoinedChatRepository : IGenericRepository<UserWhoJoined
 {
     List<UserWhoJoinedChat> GetChatIdWhereUserWithIdJointed(Guid myId);
     List<UserWhoJoinedChat> GetUsersWhoJoinedChatWithChatId(Guid chatId);
+    bool IsUserInChat(Guid userId, Guid chatId);
 }

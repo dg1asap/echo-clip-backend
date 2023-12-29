@@ -17,4 +17,9 @@ public class UserWhoJoinedChatRepository : GenericRepository<UserWhoJoinedChat>,
     {
         return _table.Where(e => e.ChatId == chatId).ToList();
     }
+
+    public bool IsUserInChat(Guid userId, Guid chatId)
+    {
+        return _table.Any(e => e.UserId == userId && e.ChatId == chatId);
+    }
 }

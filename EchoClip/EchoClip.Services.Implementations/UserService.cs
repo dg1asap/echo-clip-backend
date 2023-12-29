@@ -29,6 +29,7 @@ public class UserService(IUserRepository userRepository,
         };
 
         userRepository.Insert(newUser);
+        userRepository.Save();
     }
 
     public Guid? GetUserGuidFromUsernameOrEmail(string username, string email) => userRepository.GetUserGUIDFormUsernameOrEmail(username, email);
@@ -78,5 +79,6 @@ public class UserService(IUserRepository userRepository,
             Status = relation
         };
         _userRelationshipRepository.Insert(userRelationship);
+        _userRelationshipRepository.Save();
     }
 }

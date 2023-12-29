@@ -7,13 +7,22 @@ namespace EchoClip.gRPC.Services;
 class ChatController(ILogger<AuthController> logger, IChatService chatService, UserFromTokenReader userFromTokenReader) : gRPC.ChatController.ChatControllerBase
 {
     private readonly ILogger<AuthController> _logger = logger;
-    private readonly IChatService _chatService;
+    private readonly IChatService _chatService = chatService;
     private readonly UserFromTokenReader _userFromTokenReader = userFromTokenReader;
 
     public override Task<AddVoiceRecordingToChatResponse> AddVoiceRecordingToChat(AddVoiceRecordingToChatRequest request, ServerCallContext context)
     {
         _chatService.AddVoiceRecordingToChat(Guid.Parse(request.VoiceRecordingId), Guid.Parse(request.ChatId));
         return Task.FromResult(new AddVoiceRecordingToChatResponse{});
+    }
+
+    public override Task<AddFriendToChatResponse> AddFriendToChat(AddFriendToChatRequest request, ServerCallContext context)
+    {
+        Guid myId = _userFromTokenReader.GetUserGUID() ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "To nie jest mój guid!"));
+
+        _chatService.AddFriendToChat(myId, Guid.Parse(request.FriendId), Guid.Parse(request.ChatId));
+
+        return Task.FromResult(new AddFriendToChatResponse { });
     }
 
     public override Task<CreateChatResponse> CreateChat(CreateChatRequest request, ServerCallContext context)

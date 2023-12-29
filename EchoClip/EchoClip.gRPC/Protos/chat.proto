@@ -10,6 +10,7 @@ service ChatController {
 	rpc GetVocieRocrdingsInChat (GetVoiceRecordingsInChatRequest) returns (GetVoiceRecordingsInChatResponse);
 	rpc GetChatsICreated (GetChatsICreatedRequest) returns (GetChatsICreatedResponse);
 	rpc AddVoiceRecordingToChat (AddVoiceRecordingToChatRequest) returns (AddVoiceRecordingToChatResponse);
+	rpc AddFriendToChat (AddFriendToChatRequest) returns (AddFriendToChatResponse);
 	rpc GetUsersInChat (GetUsersInChatRequest) returns (GetUsersInChatResponse);
 }
 
@@ -67,6 +68,13 @@ message UserFromChatMessage {
 	string Name = 2;
 	string Surname = 3;
 }
+
+message AddFriendToChatRequest {
+	string friendId = 1;
+	string chatId = 2;
+}
+
+message AddFriendToChatResponse {}
 
 message GetUsersInChatRequest {
 	string ChatId = 1;
