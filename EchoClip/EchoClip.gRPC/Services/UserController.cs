@@ -10,6 +10,48 @@ class UserController(ILogger<AuthController> logger, IUserService userService, U
     private readonly IUserService _userService = userService;
     private readonly UserFromTokenReader _userFromTokenReader = userFromTokenReader;
 
+    public override Task<GetCurrentUserInfoResponse> GetCurrentUserInfo(GetCurrentUserInfoRequest request, ServerCallContext context)
+    {
+        Guid currentUserId = _userFromTokenReader.GetUserGUID() ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "To nie jest mój guid!"));
+        User? currentUser = _userService.GetUser(currentUserId);
+        if (currentUser == null)
+        {
+            throw new RpcException(new Status(StatusCode.NotFound, "User not found"));
+        }
+
+        RelatedUserMessage relatedUserMessage = new RelatedUserMessage
+        {
+            Id = currentUser.UserId.ToString(),
+            Username = currentUser.Username,
+            Name = currentUser.Name,
+            Surname = currentUser.Surname
+        };
+
+        return Task.FromResult(new GetCurrentUserInfoResponse 
+        { 
+            User = relatedUserMessage   
+        });
+    }
+
+    public override Task<GetUsersWithoutRelationshipsResponse> GetUsersWithoutRelationships(GetUsersWithoutRelationshipsRequest request, ServerCallContext context) 
+    {
+        Guid myId = _userFromTokenReader.GetUserGUID() ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "To nie jest mój guid!"));
+
+        List<User> users = _userService.GetUsersWithoutRelation(myId);
+        List<RelatedUserMessage> relatedUserMessages = users.Select(user => new RelatedUserMessage
+        {
+            Id = user.UserId.ToString(),
+            Username = user.Username,
+            Name = user.Name,
+            Surname = user.Surname
+        }).ToList();
+
+        return Task.FromResult(new GetUsersWithoutRelationshipsResponse
+        {
+            Users = { relatedUserMessages }
+        });
+    }
+
     public override Task<CreateUserResponse> CreateUser(CreateUserRequest request, ServerCallContext context)
     {
         _userService.CreateUser(request.Username, request.Password, request.Email, request.Name, request.Surname);
@@ -103,14 +145,14 @@ class UserController(ILogger<AuthController> logger, IUserService userService, U
     public override Task<RejectFriendResponse> RejectFriend(RejectFriendRequest request, ServerCallContext context)
     {
         Guid myId = _userFromTokenReader.GetUserGUID() ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "To nie jest mój guid!"));
-        _userService.SetRelationToUser(myId, Guid.Parse(request.UserFriendId), "PENDING"); 
+        _userService.SetRelationToUser(myId, Guid.Parse(request.UserFriendId), "REJECTED"); 
         return Task.FromResult(new RejectFriendResponse { });
     }
 
     public override Task<SendFriendInvitationResponse> SendFriendInvitation(SendFriendInvitationRequest request, ServerCallContext context)
     {
         Guid myId = _userFromTokenReader.GetUserGUID() ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "To nie jest mój guid!"));
-        _userService.SetRelationToUser(myId, Guid.Parse(request.UserFriendId), "REJECTED");
+        _userService.SetRelationToUser(myId, Guid.Parse(request.UserFriendId), "PENDING");
         return Task.FromResult(new SendFriendInvitationResponse { });
     }
 }

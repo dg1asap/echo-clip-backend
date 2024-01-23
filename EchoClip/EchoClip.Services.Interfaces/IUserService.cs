@@ -9,4 +9,6 @@ public interface IUserService
     List<User> GetUsersThatUserSetStatus(Guid myId, string relation);
     List<User> GetUsersWhoSetUserStatus(Guid myId, string relation);
     void SetRelationToUser(Guid myId, Guid userFriendId, string relation);
+    User? GetUser(Guid userId);
+    List<User> GetUsersWithoutRelation(Guid userId);
 }

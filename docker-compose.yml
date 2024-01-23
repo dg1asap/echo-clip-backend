@@ -1,0 +1,15 @@
+version: "3.9"
+
+volumes:
+  postgres: null
+
+services:
+  db:
+    image: postgres
+    container_name: table-data-base 
+    volumes:
+      - postgres:/var/lib/postgresql
+    env_file:
+      - .env
+    ports:
+      - "${DB_EXPOSED_PORT}:${DB_PORT}"

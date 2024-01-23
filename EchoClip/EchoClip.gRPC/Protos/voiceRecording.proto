@@ -9,6 +9,7 @@ package voiceRecording;
 service VoiceRecodringController {
 	rpc CreateVoiceRecording (CreateVoiceRecordingRequest) returns (CreateVoiceRecordingResponse);
 	rpc GetMyVoiceRecording (GetMyVoiceRecordingRequest) returns (GetMyVoiceRecordingResponse);
+	rpc GetVoiceRecording(GetVoiceRecordingRequest) returns (GetVoiceRecordingResponse);
 }
 
 message VoiceRecodringMessage {
@@ -18,15 +19,24 @@ message VoiceRecodringMessage {
 }
 
 message CreateVoiceRecordingRequest {
-	string VoiceRecodringId = 1;
-	string name = 2;
-	bytes audio_data = 3;
+	string name = 1;
+	bytes audio_data = 2;
 }
 
-message CreateVoiceRecordingResponse {}
+message CreateVoiceRecordingResponse {
+	string VoiceRecordingId = 1;
+}
 
 message GetMyVoiceRecordingRequest {}
 
 message GetMyVoiceRecordingResponse {
 	repeated VoiceRecodringMessage myVoiceRecordings = 1;
+}
+
+message GetVoiceRecordingRequest {
+	string VoiceRecordingId = 1;
+}
+
+message GetVoiceRecordingResponse {
+	VoiceRecodringMessage VoiceRecording = 1;
 }

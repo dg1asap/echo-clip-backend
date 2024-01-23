@@ -18,12 +18,31 @@ message CreateChatRequest {
 	string Name = 1;
 }
 
-message CreateChatResponse {}
+message CreateChatResponse {
+	string ChatId = 1;
+}
+
+message VoiceRecodringInChatMessage {
+	string Id = 1;
+	string Name = 2;
+	string OwnerId = 3;
+	string UploadDataTime = 4;
+}
+
 
 message UserChatMessage {
 	string Id = 1;
 	string Name = 2;
+	optional VoiceRecodringInChatMessage LatestVoiceRecording = 3;
 }
+
+message UserFromChatMessage {
+	string Id = 1;
+	string Username = 2;
+	string Name = 3;
+	string Surname = 4;
+}
+
 
 // Czaty do ktorych dolaczylem, nie podaje id user bo jest przechywytywany przez authorization token
 message GetJointedChatsRequest {}
@@ -37,11 +56,6 @@ message GetChatsICreatedRequest {}
 
 message GetChatsICreatedResponse {
 	repeated UserChatMessage CreatedChats = 1;
-}
-
-message VoiceRecodringInChatMessage {
-	string Id = 1;
-	string Name = 2;
 }
 
 message GetVoiceRecordingsInChatRequest {
@@ -62,12 +76,6 @@ message AddVoiceRecordingToChatRequest {
 }
 
 message AddVoiceRecordingToChatResponse {}
-
-message UserFromChatMessage {
-	string Username = 1;
-	string Name = 2;
-	string Surname = 3;
-}
 
 message AddFriendToChatRequest {
 	string friendId = 1;

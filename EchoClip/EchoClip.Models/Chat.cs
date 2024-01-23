@@ -24,4 +24,5 @@ public class Chat
     public List<ChatsVoiceRecording> ChatsVoiceRecordings { get; set; } = new();
 
     public List<UserWhoJoinedChat> UsersWhoJoinedChats { get; set; } = new();
+
 }

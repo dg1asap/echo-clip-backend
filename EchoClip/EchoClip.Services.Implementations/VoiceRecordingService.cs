@@ -16,9 +16,11 @@ public class VoiceRecordingService : IVoiceRecordingService
         _audioFolderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "..", "Audio");
     }
 
-    public void CreateVoiceRecording(string name, Guid ownerUserId, byte[] bytes)
+    public VoiceRecording CreateVoiceRecording(string name, Guid ownerUserId, byte[] bytes)
     {
-        string filePath = Path.Combine(_audioFolderPath, name);
+        Guid voiceRecordingId = Guid.NewGuid();
+        string fileName = $"{name}-{voiceRecordingId}.mp3";
+        string filePath = Path.Combine(_audioFolderPath, fileName);
         File.WriteAllBytes(filePath, bytes);
 
         VoiceRecording voiceRecording = new VoiceRecording
@@ -26,11 +28,12 @@ public class VoiceRecordingService : IVoiceRecordingService
             VoiceRecordingId = Guid.NewGuid(),
             Name = name,
             OwnerUserId = ownerUserId,
-            AudioDataPath = name + ".mp3",
+            AudioDataPath = fileName,
             UploadDataTime = DateTime.Now,
         };
         _voiceRecordingRepository.Insert(voiceRecording);
         _voiceRecordingRepository.Save();
+        return voiceRecording;
     }
 
     public List<VoiceRecording> GetMyVoiceRecording(Guid ownerUserId)
@@ -40,5 +43,12 @@ public class VoiceRecordingService : IVoiceRecordingService
         voiceRecordings.Sort((x, y) => x.UploadDataTime.CompareTo(y.UploadDataTime));
         
         return voiceRecordings;
+    }
+
+    public VoiceRecording? GetVoiceRecording(Guid voiceRecordingId)
+    {
+        VoiceRecording? voiceRecording = _voiceRecordingRepository.GetById(voiceRecordingId);
+
+        return voiceRecording;
     }
 }

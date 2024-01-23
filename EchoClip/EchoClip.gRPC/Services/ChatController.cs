@@ -29,20 +29,31 @@ class ChatController(ILogger<AuthController> logger, IChatService chatService, U
     {
         Guid myId = _userFromTokenReader.GetUserGUID() ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "To nie jest mój guid!"));
 
-        _chatService.CreateChat(request.Name, myId);
+        Chat chat = _chatService.CreateChat(request.Name, myId);
 
-        return Task.FromResult(new CreateChatResponse{});
+        return Task.FromResult(new CreateChatResponse{
+        
+            ChatId = chat.ChatId.ToString(),
+        });
     }
 
     public override Task<GetChatsICreatedResponse> GetChatsICreated(GetChatsICreatedRequest request, ServerCallContext context)
     {
         Guid myId = _userFromTokenReader.GetUserGUID() ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "To nie jest mój guid!"));
-        List<Chat> chats = _chatService.GetChatsICreated(myId);
+        List<Tuple<Chat, VoiceRecording?>> chats = _chatService.GetChatsICreated(myId);
+
         List<UserChatMessage> usersChatMessage = chats.Select(
             chat => new UserChatMessage
             {
-                Id = chat.ChatId.ToString(),
-                Name = chat.Name
+                Id = chat.Item1.ChatId.ToString(),
+                Name = chat.Item1.Name,
+                LatestVoiceRecording = chat.Item2 != null ? new VoiceRecodringInChatMessage
+                {
+                    Id = chat.Item2.VoiceRecordingId.ToString(),
+                    Name = chat.Item2.Name,
+                    OwnerId = chat.Item2.OwnerUserId.ToString(),
+                    UploadDataTime = chat.Item2.UploadDataTime.ToString(),
+                } : null,
             }).ToList();
 
         return Task.FromResult(new GetChatsICreatedResponse
@@ -54,12 +65,19 @@ class ChatController(ILogger<AuthController> logger, IChatService chatService, U
     public override Task<GetJointedChatsResponse> GetJointedChats(GetJointedChatsRequest request, ServerCallContext context)
     {
         Guid myId = _userFromTokenReader.GetUserGUID() ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "To nie jest mój guid!"));
-        List<Chat> chats = _chatService.GetJointedChats(myId);
+        List<Tuple<Chat,VoiceRecording?>> chats = _chatService.GetJointedChats(myId);
         List<UserChatMessage> usersChatMessage = chats.Select(
             chat => new UserChatMessage
             {
-                Id = chat.ChatId.ToString(),
-                Name = chat.Name
+                Id = chat.Item1.ChatId.ToString(),
+                Name = chat.Item1.Name,
+                LatestVoiceRecording = chat.Item2 != null ? new VoiceRecodringInChatMessage
+                {
+                    Id = chat.Item2.VoiceRecordingId.ToString(),
+                    Name = chat.Item2.Name,
+                    OwnerId = chat.Item2.OwnerUserId.ToString(),
+                    UploadDataTime = chat.Item2.UploadDataTime.ToString(),
+                } : null,
             }).ToList();
 
         return Task.FromResult(new GetJointedChatsResponse
@@ -74,6 +92,7 @@ class ChatController(ILogger<AuthController> logger, IChatService chatService, U
         List<UserFromChatMessage> usersFromChatMessages = users.Select(
             user => new UserFromChatMessage
             {
+                Id = user.UserId.ToString(),
                 Username = user.Username,
                 Name = user.Name,
                 Surname = user.Surname
@@ -91,8 +110,10 @@ class ChatController(ILogger<AuthController> logger, IChatService chatService, U
         List<VoiceRecodringInChatMessage> voiceRecodringInChatMessages = voiceRecordings.Select(
             voiceRecording => new VoiceRecodringInChatMessage {
                 Id = voiceRecording.VoiceRecordingId.ToString(),
-                Name = voiceRecording.Name
-        }).ToList();
+                Name = voiceRecording.Name,
+                OwnerId = voiceRecording.OwnerUserId.ToString(),
+                UploadDataTime = voiceRecording.UploadDataTime.ToString()
+            }).ToList();
          
         return Task.FromResult(new GetVoiceRecordingsInChatResponse
         {

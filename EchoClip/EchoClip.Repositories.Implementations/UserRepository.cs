@@ -24,4 +24,5 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             .Select(u => u.UserId)
             .FirstOrDefault();
     }
+
 }

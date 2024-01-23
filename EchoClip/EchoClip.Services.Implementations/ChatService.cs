@@ -49,7 +49,7 @@ public class ChatService(IChatRepository chatRepository,
         }
     }
 
-    public void CreateChat(string name, Guid ownerId)
+    public Chat CreateChat(string name, Guid ownerId)
     {
         Chat chat = new Chat
         {
@@ -59,25 +59,49 @@ public class ChatService(IChatRepository chatRepository,
         };
         _chatRepository.Insert(chat);
         _chatRepository.Save();
+
+        return chat;
     }
 
-    public List<Chat> GetChatsICreated(Guid myId)
+    public List<Tuple<Chat, VoiceRecording?>> GetChatsICreated(Guid myId)
     {
-        return _chatRepository.GetChatsWithOwnerUserId(myId);
+        List<Chat> chats = _chatRepository.GetChatsWithOwnerUserId(myId);
+        List<Tuple<Chat, VoiceRecording?>> chatList = new List<Tuple<Chat, VoiceRecording?>>();
+        foreach(Chat chat in chats)
+        {
+            ChatsVoiceRecording? latestChatVoiceRecording = _chatVoiceRecordingRepository.GetLatestChatVoiceRecordingWithChatId(chat.ChatId);
+            VoiceRecording? voiceRecording = null;
+            if (latestChatVoiceRecording != null)
+            {
+                voiceRecording = _voiceRecordingRepository.GetById(latestChatVoiceRecording.VoiceRecordingId);
+            }
+
+            chatList.Add(new Tuple<Chat, VoiceRecording?>(chat, voiceRecording));
+
+        }
+
+        return chatList;
     }
 
-    public List<Chat> GetJointedChats(Guid myId)
+    public List<Tuple<Chat, VoiceRecording?>> GetJointedChats(Guid myId)
     {
         List<UserWhoJoinedChat> userWhoJoinedChats = _userWhoJoinedChatRepository.GetChatIdWhereUserWithIdJointed(myId);
 
-        List<Chat> chats = new List<Chat>();
+        List<Tuple<Chat, VoiceRecording?>> chats = new List<Tuple<Chat, VoiceRecording?>>();
         foreach (UserWhoJoinedChat userWhoJoinedChat in userWhoJoinedChats)
         {
             Chat chat = _chatRepository.GetById(userWhoJoinedChat.ChatId);
 
+            ChatsVoiceRecording? latestChatVoiceRecording = _chatVoiceRecordingRepository.GetLatestChatVoiceRecordingWithChatId(chat.ChatId);
+            VoiceRecording? voiceRecording = null;
+            if (latestChatVoiceRecording != null)
+            {
+                voiceRecording = _voiceRecordingRepository.GetById(latestChatVoiceRecording.VoiceRecordingId);
+            }
+
             if (chat != null)
             {
-                chats.Add(chat);
+                chats.Add(new Tuple<Chat, VoiceRecording?>(chat, voiceRecording));
             }
         }
 
@@ -120,5 +144,16 @@ public class ChatService(IChatRepository chatRepository,
         }
 
         return voiceRecordings;
+    }
+
+    public VoiceRecording? GetLatestVoiceRecordingInChat(Guid chatId)
+    {
+        ChatsVoiceRecording? latestChatVoiceRecording = _chatVoiceRecordingRepository.GetLatestChatVoiceRecordingWithChatId(chatId);
+        if (latestChatVoiceRecording != null)
+        {
+            VoiceRecording voiceRecording = _voiceRecordingRepository.GetById(latestChatVoiceRecording.VoiceRecordingId);
+            return voiceRecording;
+        }
+        return null;
     }
 }

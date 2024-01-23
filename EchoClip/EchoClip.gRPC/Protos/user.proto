@@ -7,7 +7,10 @@ package user;
 service UserController {
 	rpc CreateUser (CreateUserRequest) returns (CreateUserResponse);
 	
+	rpc GetCurrentUserInfo(GetCurrentUserInfoRequest) returns (GetCurrentUserInfoResponse);
+
 	rpc GetFriends (GetFriendsRequest) returns (GetFriendsResponse);
+	rpc GetUsersWithoutRelationships(GetUsersWithoutRelationshipsRequest) returns (GetUsersWithoutRelationshipsResponse);
 	rpc GetInvitedFriends (GetInvitedFriendsRequest) returns (GetInvitedFriendsResponse);
 	rpc GetInvitationsForMe (GetInvitationsForMeRequest) returns (GetInvitationsForMeResponse);
 	rpc GetRejectedFriends (GetRejectedFriendsRequest) returns (GetRejectedFriendsResponse);
@@ -16,6 +19,7 @@ service UserController {
 	
 	rpc AcceptFriend (AcceptFriendRequest) returns (AcceptFriendResponse);
 	rpc RejectFriend (RejectFriendRequest) returns (RejectFriendResponse);
+	
 }
 
 message CreateUserRequest {
@@ -38,10 +42,22 @@ message RelatedUserMessage {
 	string Surname = 4;
 }
 
+message GetCurrentUserInfoRequest{}
+
+message GetCurrentUserInfoResponse{
+	RelatedUserMessage User = 1;
+}
+
 message GetFriendsRequest {}
 
 message GetFriendsResponse {
 	repeated RelatedUserMessage Friends = 1;
+}
+
+message GetUsersWithoutRelationshipsRequest {}
+
+message GetUsersWithoutRelationshipsResponse {
+	repeated RelatedUserMessage Users = 1;
 }
 
 message GetInvitedFriendsRequest {}
@@ -79,3 +95,4 @@ message RejectFriendRequest {
 }
 
 message RejectFriendResponse {}
+

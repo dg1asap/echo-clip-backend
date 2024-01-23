@@ -22,4 +22,14 @@ public class UserRelationshipRepository : GenericRepository<UserRelationship>, I
     {
         return _table.Any(e => e.UserId == myId && e.UserFriendId == friendId && e.Status == status);
     }
+
+    public bool UserHasRelationWithFriend(Guid userId, Guid friendId)
+    {
+        return _table.Any(e => ((e.UserId == userId && e.UserFriendId == friendId) || (e.UserFriendId == userId && e.UserId == friendId)));
+    }
+
+    public bool UserHasRelationWithFriendAndStatus(Guid userId, Guid friendId, string[] status)
+    {
+        return _table.Any(e => ((e.UserId == userId && e.UserFriendId == friendId) || (e.UserFriendId == userId && e.UserId == friendId)) && status.Contains(e.Status));
+    }
 }

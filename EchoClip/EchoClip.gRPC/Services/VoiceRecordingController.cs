@@ -23,9 +23,11 @@ class VoiceRecordingController : gRPC.VoiceRecodringController.VoiceRecodringCon
     public override Task<CreateVoiceRecordingResponse> CreateVoiceRecording(CreateVoiceRecordingRequest request, ServerCallContext context)
     {
         Guid myId = _userFromTokenReader.GetUserGUID() ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "To nie jest mój guid!"));
-        _voiceRecordingService.CreateVoiceRecording(request.Name, myId, request.AudioData.ToByteArray());
+        VoiceRecording voiceRecording = _voiceRecordingService.CreateVoiceRecording(request.Name, myId, request.AudioData.ToByteArray());
 
-        return Task.FromResult(new CreateVoiceRecordingResponse{});
+        return Task.FromResult(new CreateVoiceRecordingResponse{
+            VoiceRecordingId = voiceRecording.VoiceRecordingId.ToString(),
+        });
     }
 
     public override Task<GetMyVoiceRecordingResponse> GetMyVoiceRecording(GetMyVoiceRecordingRequest request, ServerCallContext context)
@@ -45,5 +47,29 @@ class VoiceRecordingController : gRPC.VoiceRecodringController.VoiceRecodringCon
         {
             MyVoiceRecordings = { voiceRecodringMessages }
         });
+    }
+
+    public override Task<GetVoiceRecordingResponse> GetVoiceRecording(GetVoiceRecordingRequest request, ServerCallContext context)
+    {
+        Guid myId = _userFromTokenReader.GetUserGUID() ?? throw new RpcException(new Status(StatusCode.InvalidArgument, "To nie jest mój guid!"));
+        VoiceRecording? voiceRecording = _voiceRecordingService.GetVoiceRecording(Guid.Parse(request.VoiceRecordingId));
+
+        if(voiceRecording == null)
+        {
+            throw new RpcException(new Status(StatusCode.NotFound, "No found voice recording"));
+        }
+
+        VoiceRecodringMessage voiceRecodringMessage = new VoiceRecodringMessage
+        {
+            VoiceRecordingId = voiceRecording.VoiceRecordingId.ToString(),
+            Name = voiceRecording.Name,
+            AudioData = ByteString.CopyFrom(File.ReadAllBytes(Path.Combine(_audioFolderPath, voiceRecording.AudioDataPath)))
+        };
+
+        return Task.FromResult(new GetVoiceRecordingResponse
+        {
+            VoiceRecording = voiceRecodringMessage
+        });
+
     }
 }

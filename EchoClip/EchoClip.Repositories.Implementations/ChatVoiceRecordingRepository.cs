@@ -12,4 +12,9 @@ public class ChatVoiceRecordingRepository : GenericRepository<ChatsVoiceRecordin
     {
         return _table.Where(e => e.ChatId == chatId).ToList();
     }
+
+    public ChatsVoiceRecording? GetLatestChatVoiceRecordingWithChatId(Guid chatId)
+    {
+        return _table.Where(e => e.ChatId == chatId).OrderByDescending(e => e.DataOfAdded).FirstOrDefault();
+    }
 }

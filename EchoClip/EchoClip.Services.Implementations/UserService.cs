@@ -81,4 +81,27 @@ public class UserService(IUserRepository userRepository,
         _userRelationshipRepository.Insert(userRelationship);
         _userRelationshipRepository.Save();
     }
+
+    public User? GetUser(Guid userId)
+    {
+        User? user = _userRepository.GetById(userId);
+        return user;
+    }
+
+    public List<User> GetUsersWithoutRelation(Guid userId)
+    {
+        var users = _userRepository.GetAll();
+
+        List<User> userWithoutRelation = new List<User>();
+
+        foreach (var user in users)
+        {
+            if(!_userRelationshipRepository.UserHasRelationWithFriend(userId, user.UserId) && userId != user.UserId)
+            {
+                userWithoutRelation.Add(user);
+            }   
+        }
+
+        return userWithoutRelation;
+    }
 }
